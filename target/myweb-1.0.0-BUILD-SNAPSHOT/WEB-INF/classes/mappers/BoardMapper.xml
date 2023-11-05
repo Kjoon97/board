@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.tukorea.myweb.mapper.BoardMapper">
+  
+
+     <insert id="insert"> 
+   		insert into board (title, content, score, movieId) values
+ 		(#{title}, #{content}, #{score}, #{movieId})
+     </insert> 
+ 	
+     <select id="selectByid" resultType="org.tukorea.myweb.domain.BoardVO">
+ 		select * from board where bno =#{bno}
+     </select>
+ 	
+     <select id="selectAll" resultType="org.tukorea.myweb.domain.BoardVO">
+     <![CDATA[
+ 		select * from board
+      ]]> 
+     </select>
+     
+     <update id="update" parameterType="BoardVO">
+	 	update board
+	 	set title = #{title}, content = #{content}, score = #{score}, regdate =now()
+	 	where bno = #{bno}
+    </update>
+ 
+    <select id="selectByMovieId" resultType="org.tukorea.myweb.domain.BoardVO">
+       select * from board where movieId =#{movieId}
+    </select>
+ 
+    <delete id="delete">
+		delete from board where bno = #{bno}
+    </delete>
+
+	
+</mapper>  
