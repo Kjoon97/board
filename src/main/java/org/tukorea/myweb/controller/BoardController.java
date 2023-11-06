@@ -21,6 +21,7 @@ public class BoardController {
 	private final BoardService bs;
 	
 	
+	//게시물 리스트
 	@GetMapping(value="/")
 	public String home(Model model) throws Exception {
 		List<BoardVO> boardList = bs.readBoardList();
@@ -45,4 +46,5 @@ public class BoardController {
 		model.addAttribute("board",board);
 		return "board/detail";
 	}
+
 }

@@ -17,8 +17,7 @@
 <div class= "container">
 			<form>
 				<div class="form-group">
-					<label for="id">글 번호</label>
-					<input type="text" class="form-control" id="id" value=${board.id} readonly>
+					<input type="text" class="form-control" id="id" value=${board.id} style=display:none>
 				</div>
 				<div class="form-group">
 					<label for="title">제목</label>
@@ -26,16 +25,16 @@
 				</div>
 				<div class="form-group">
 					<label for="content">내용</label>
-					<textarea class="form-control" id="content">${board.content }</textarea>
+					<textarea class="form-control" id="content">${board.content}</textarea>
 				</div>
 				<div class="form-group">
 					<label for="writer">작성자</label>
 					<input type="text" class="form-control" id="writer" value=${board.writer}>
 				</div>
 			</form>
-			<br>
-			<a href="http://localhost:8080/board/register" class="btn btn-primary">수정</a>
-			<button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
+			
+			<button id="btn-update" type="button" class="btn btn-primary">수정</button>
+			<button id="btn-delete" type="button" class="btn btn-danger">삭제</button>
 </div>
 	<script src="${path}/resources/js/board.js"></script>
 </body>

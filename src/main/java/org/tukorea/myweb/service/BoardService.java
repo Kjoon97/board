@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.tukorea.myweb.domain.BoardVO;
 import org.tukorea.myweb.dto.SaveBoardDto;
+import org.tukorea.myweb.dto.UpdateBoardDto;
 import org.tukorea.myweb.persistence.BoardDAO;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,13 @@ public class BoardService {
 	
 	public void deleteBoard(int id) throws Exception {
 		boardDAO.deleteById(id);
+	}
+	
+	public void update(int id, UpdateBoardDto updateBoardDto) throws Exception {
+		
+		BoardVO boardVO = boardDAO.readDetail(id);
+		boardVO.updateBoard(updateBoardDto.getTitle(), updateBoardDto.getContent(), updateBoardDto.getWriter());
+		boardDAO.updateBoard(boardVO);
 	}
 	
 }

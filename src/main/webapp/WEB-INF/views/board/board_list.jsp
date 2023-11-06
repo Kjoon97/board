@@ -17,6 +17,8 @@
 		    	<th>번호</th>
 		    	<th>제목</th>
 		    	<th>등록자</th>
+		    	<th>등록 날짜</th>
+		    	<th>수정 날짜</th>
 		  	</tr>
 		   </thead>
 		   <tbody id="tbody">
@@ -26,6 +28,8 @@
 			    <td>${i }</td>
 			    <td><c:url value="/board/detail/${board.id}" var="url"/><a href="${url}"><c:out value="${board.title}" escapeXml="false"/></a></td>
 			    <td><c:out value="${board.writer}"/></td>
+			    <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${board.regdate}"/></td>
+			    <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${board.updatedate}"/></td>
 			  </tr>
 		  </c:forEach>
 		  </tbody>

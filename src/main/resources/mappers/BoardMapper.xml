@@ -8,32 +8,32 @@
   
 
      <insert id="insert"> 
-   		insert into board (title, content, writer) values
- 		(#{title}, #{content}, #{writer})
+   		insert into KJH_Board (id, title, content, writer, updatedate, regdate) values
+ 		(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{writer}, SYSTIMESTAMP, SYSTIMESTAMP)
      </insert> 
  	
      <select id="selectByid" resultType="org.tukorea.myweb.domain.BoardVO">
- 		select * from board where id =#{id}
+ 		select * from KJH_Board where id =#{id}
      </select>
  	
      <select id="selectAll" resultType="org.tukorea.myweb.domain.BoardVO">
      <![CDATA[
- 		select * from board
+ 		select * from KJH_Board order by id asc
       ]]> 
      </select>
      
      <update id="update" parameterType="BoardVO">
-	 	update board
-	 	set title = #{title}, content = #{content}, score = #{score}, regdate =now()
-	 	where bno = #{bno}
+	 	update KJH_Board
+	 	set title = #{title,jdbcType=VARCHAR}, content = #{content,jdbcType=VARCHAR}, writer =#{writer,jdbcType=VARCHAR}, updatedate = SYSTIMESTAMP
+	 	where id = #{id}
     </update>
  
     <select id="selectByMovieId" resultType="org.tukorea.myweb.domain.BoardVO">
-       select * from board where movieId =#{movieId}
+       select * from KJH_Board where movieId =#{movieId}
     </select>
  
     <delete id="delete">
-		delete from board where id = #{id}
+		delete from KJH_Board where id = #{id}
     </delete>
 
 	

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import org.tukorea.myweb.domain.BoardVO;
+import org.tukorea.myweb.dto.UpdateBoardDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,6 +40,11 @@ public class BoardDAO {
 	//글 삭제
 	public void deleteById(int id) throws Exception {
 		sqlSession.delete(namespace + ".delete", id);
+	}
+	
+	//글 수정
+	public void updateBoard(BoardVO board) throws Exception {
+		sqlSession.update(namespace + ".update", board);
 	}
 	
 	

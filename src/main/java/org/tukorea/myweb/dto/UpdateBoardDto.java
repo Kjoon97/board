@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class SaveBoardDto {
+public class UpdateBoardDto {
 
     private String title;
     private String content;
     private String writer;
     
     @Builder
-    public SaveBoardDto(String title, String content, String Writer){
+    public UpdateBoardDto(String title, String content, String writer){
         this.title = title;
         this.content =content;
         this.writer=writer;

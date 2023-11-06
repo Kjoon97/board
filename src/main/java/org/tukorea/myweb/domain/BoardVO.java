@@ -29,9 +29,15 @@ public class BoardVO {
 	private Date regdate;
 	
 	//수정 날짜
-	private Date update;
+	private Date updatedate;
 	
 	//등록자 계정
 	private String writer;
+	
+	public void updateBoard(String title, String content, String writer) {
+		this.title = title;
+		this.content = content;
+		this.writer = writer;
+	}
 
 }

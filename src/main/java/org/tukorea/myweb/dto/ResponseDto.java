@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@Builder
 @Getter
 public class ResponseDto<T> {
     int statusCode;
