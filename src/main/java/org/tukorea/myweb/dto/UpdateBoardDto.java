@@ -14,20 +14,23 @@ public class UpdateBoardDto {
 
     private String title;
     private String content;
-    private String writer;
+    private String userId;
+    private int viewCount;
     
     @Builder
-    public UpdateBoardDto(String title, String content, String writer){
+    public UpdateBoardDto(String title, String content, String userId, int viewCount){
         this.title = title;
         this.content =content;
-        this.writer=writer;
+        this.userId=userId;
+        this.viewCount = viewCount;
     }
 
     public BoardVO toEntity(){
         return BoardVO.builder()
                 .title(title)
                 .content(content)
-                .writer(writer)
+                .userId(userId)
+                .viewCount(viewCount)
                 .build();
     }
     

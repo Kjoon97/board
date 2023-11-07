@@ -15,7 +15,7 @@ let index ={
          let data = {
                title: $("#title").val(),
                content: $("#content").val(),
-               writer: $("#writer").val()
+               userId: $("#userId").val()
          };
          console.log(data)
 
@@ -55,7 +55,7 @@ let index ={
          let data = {
                title: $("#title").val(),
                content: $("#content").val(),
-               writer:$("#writer").val(),
+               userId:$("#userId").val(),
          };
          console.log(data)
 

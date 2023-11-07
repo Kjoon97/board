@@ -32,8 +32,11 @@ public class BoardApiController {
     //글 작성
     @PostMapping("/api/board")
     public ResponseDto<Integer> save(@RequestBody SaveBoardDto saveBoardDto) throws Exception{
+    	
+    
     	BoardVO boardVO = saveBoardDto.toEntity();
-    	System.out.println(boardVO.getWriter());
+    	System.out.println(saveBoardDto.getUserId());
+    	System.out.println(boardVO.getUserId());
         boardService.addBoard(boardVO);
     	System.out.println("글작성");
     	System.out.println(saveBoardDto.getTitle());

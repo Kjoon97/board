@@ -32,12 +32,16 @@ public class BoardVO {
 	private Date updatedate;
 	
 	//등록자 계정
-	private String writer;
+	private String userId;
 	
-	public void updateBoard(String title, String content, String writer) {
+	//조회 수 
+	private int viewCount;
+	
+	public void updateBoard(String title, String content, String userId, int viewCount) {
 		this.title = title;
 		this.content = content;
-		this.writer = writer;
+		this.userId = userId;
+		this.viewCount = viewCount;
 	}
 
 }

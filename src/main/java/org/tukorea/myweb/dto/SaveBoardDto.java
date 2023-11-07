@@ -14,20 +14,20 @@ public class SaveBoardDto {
 
     private String title;
     private String content;
-    private String writer;
+    private String userId;
     
     @Builder
-    public SaveBoardDto(String title, String content, String Writer){
+    public SaveBoardDto(String title, String content, String userId){
         this.title = title;
         this.content =content;
-        this.writer=writer;
+        this.userId=userId;
     }
 
     public BoardVO toEntity(){
         return BoardVO.builder()
                 .title(title)
                 .content(content)
-                .writer(writer)
+                .userId(userId)
                 .build();
     }
     

@@ -8,23 +8,18 @@
   
 
      <insert id="insert"> 
-   		insert into KJH_Board (id, title, content, writer, updatedate, regdate) values
- 		(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{writer}, SYSTIMESTAMP, SYSTIMESTAMP)
+   		insert into KJH_Board (id, title, content, userId, updatedate, regdate) values
+ 		(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{userId}, SYSTIMESTAMP, SYSTIMESTAMP)
      </insert> 
  	
      <select id="selectByid" resultType="org.tukorea.myweb.domain.BoardVO">
  		select * from KJH_Board where id =#{id}
      </select>
  	
-     <select id="selectAll" resultType="org.tukorea.myweb.domain.BoardVO">
-     <![CDATA[
- 		select * from KJH_Board order by id asc
-      ]]> 
-     </select>
      
      <update id="update" parameterType="BoardVO">
 	 	update KJH_Board
-	 	set title = #{title,jdbcType=VARCHAR}, content = #{content,jdbcType=VARCHAR}, writer =#{writer,jdbcType=VARCHAR}, updatedate = SYSTIMESTAMP
+	 	set title = #{title,jdbcType=VARCHAR}, content = #{content,jdbcType=VARCHAR}, userId =#{userId,jdbcType=VARCHAR}, updatedate = SYSTIMESTAMP
 	 	where id = #{id}
     </update>
  
@@ -35,6 +30,17 @@
     <delete id="delete">
 		delete from KJH_Board where id = #{id}
     </delete>
+    
+    <update id="updateviewcount">
+    	update KJH_BOARD set viewcount= viewcount+1 where id =#{id}
+    </update>
 
-	
+	<select id="selectAll" resultType="org.tukorea.myweb.domain.BoardVO">
+    	<![CDATA[
+        	SELECT * FROM KJH_Board
+        	ORDER BY id ASC
+    	]]>
+	</select>
+
+   
 </mapper>  
