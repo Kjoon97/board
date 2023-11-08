@@ -9,7 +9,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import org.tukorea.myweb.domain.BoardVO;
 import org.tukorea.myweb.domain.Criteria;
-import org.tukorea.myweb.dto.UpdateBoardDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,13 +26,10 @@ public class BoardDAO {
 	}
 	
 	//글 목록 읽기
-	public List<BoardVO> readList(String searhOption, String keyword) throws Exception {
+	public List<BoardVO> readList() throws Exception {
 		List<BoardVO> boardList = new ArrayList<BoardVO>();
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("searchOption", searhOption);
-		map.put("keyword", keyword);
-		
-		boardList = sqlSession.selectList(namespace + ".selectAll", map);
+		boardList = sqlSession.selectList(namespace + ".selectAll");
 		return boardList;
 	}
 	
@@ -59,14 +55,15 @@ public class BoardDAO {
 		sqlSession.update(namespace + ".updateviewcount", id); 
 	};
 	
-//	//페이지
-//	public List<BoardVO> listPage(Criteria cri) throws Exception {
-//		return sqlSession.selectList(namespace + ".listPage", cri);
-//	}
-//	
-//	//게시물 총 개수
-//	public int getTotalCount(Criteria cri) throws Exception {
-//		return sqlSession.selectOne(namespace + ".gettotalcount", cri);
-//	}
+	//criteria
+	public List<BoardVO> getListWithPaging(Criteria cri){
+		return sqlSession.selectList(namespace + ".getListWithPaging", cri);
+	}
+	
+	//전체 수
+	public int getTotalCount(Criteria cri) {
+		return sqlSession.selectOne(namespace+ ".getTotalCount", cri);
+	}
+	
 
 }

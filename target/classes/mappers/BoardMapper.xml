@@ -5,35 +5,46 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.tukorea.myweb.mapper.BoardMapper">
-  
 
-     <insert id="insert"> 
-   		insert into KJH_Board (id, title, content, userId, updatedate, regdate) values
- 		(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{userId}, SYSTIMESTAMP, SYSTIMESTAMP)
-     </insert> 
- 	
-     <select id="selectByid" resultType="org.tukorea.myweb.domain.BoardVO">
- 		select * from KJH_Board where id =#{id}
-     </select>
- 	
-     
-     <update id="update" parameterType="BoardVO">
-	 	update KJH_Board
-	 	set title = #{title,jdbcType=VARCHAR}, content = #{content,jdbcType=VARCHAR}, userId =#{userId,jdbcType=VARCHAR}, updatedate = SYSTIMESTAMP
-	 	where id = #{id}
-    </update>
- 
-    <select id="selectByMovieId" resultType="org.tukorea.myweb.domain.BoardVO">
-       select * from KJH_Board where movieId =#{movieId}
-    </select>
- 
-    <delete id="delete">
+
+	<insert id="insert">
+		insert into KJH_Board (id, title, content, userId,
+		updatedate, regdate)
+		values
+		(SEQ_BOARD.NEXTVAL, #{title}, #{content},
+		#{userId}, SYSTIMESTAMP, SYSTIMESTAMP)
+	</insert>
+
+	<select id="selectByid" resultType="org.tukorea.myweb.domain.BoardVO">
+		select * from KJH_Board where
+		id =#{id}
+	</select>
+
+
+	<update id="update" parameterType="BoardVO">
+		update KJH_Board
+		set title =
+		#{title,jdbcType=VARCHAR}, content =
+		#{content,jdbcType=VARCHAR},
+		userId =#{userId,jdbcType=VARCHAR},
+		updatedate = SYSTIMESTAMP
+		where id =
+		#{id}
+	</update>
+
+	<select id="selectByMovieId" resultType="org.tukorea.myweb.domain.BoardVO">
+		select * from KJH_Board
+		where movieId =#{movieId}
+	</select>
+
+	<delete id="delete">
 		delete from KJH_Board where id = #{id}
-    </delete>
-    
-    <update id="updateviewcount">
-    	update KJH_BOARD set viewcount= viewcount+1 where id =#{id}
-    </update>
+	</delete>
+
+	<update id="updateviewcount">
+		update KJH_BOARD set viewcount= viewcount+1 where id
+		=#{id}
+	</update>
 
 	<select id="selectAll" resultType="org.tukorea.myweb.domain.BoardVO">
     	<![CDATA[
@@ -42,5 +53,54 @@
     	]]>
 	</select>
 
-   
+	<!-- <sql>코드는 <include>로 사용할 수 있음 -->
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<choose>
+				<when test="type == 'T'.toString()">
+					title like '%'||#{keyword}||'%'
+				</when>
+				<when test="type == 'C'.toString()">
+					content like '%'||#{keyword}||'%'
+				</when>
+				<when test="type == 'W'.toString()">
+					userId like '%'||#{keyword}||'%'
+				</when>
+			</choose>
+		</trim>
+	</sql>
+
+
+
+	<select id="getListWithPaging" resultType="org.tukorea.myweb.domain.BoardVO">
+		<![CDATA[
+			select *
+			from (
+				select
+				rownum rn, id, title, content, userid, updatedate, regdate, viewcount
+				from KJH_BOARD
+				where 
+		]]>
+		<include refid="criteria"></include>
+		<![CDATA[		
+				rownum <= #{pageNum} * #{amount}
+		)
+		where rn > (#{pageNum} - 1) * #{amount}
+		order by id
+		]]>
+	</select>
+
+
+
+	<select id="getTotalCount" resultType="int">
+    	<![CDATA[
+    		select count(*) from KJH_BOARD where
+    	]]>
+		<include refid="criteria"></include>
+    	<![CDATA[
+    		 id > 0
+		]]>
+	</select>
+
+
 </mapper>  

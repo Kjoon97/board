@@ -6,11 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.tukorea.myweb.domain.BoardVO;
 import org.tukorea.myweb.domain.Criteria;
+import org.tukorea.myweb.dto.PageDTO;
 import org.tukorea.myweb.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,17 +22,19 @@ public class BoardController {
 	
 	
 	//게시물 리스트
-	@GetMapping(value="/")
-	public String home(@RequestParam(defaultValue = "title") String searchOption, @RequestParam(defaultValue="") String keyword, Model model) throws Exception {
-		List<BoardVO> boardList = bs.readBoardList(searchOption, keyword);	   
+	@GetMapping(value="/list")
+	public String home(Criteria cri, Model model) throws Exception {
 		
-		for (BoardVO b: boardList) {
+//	    model.addAttribute("list", bs.getList(cri));
+	    
+		
+		List<BoardVO> boards = bs.getList(cri);   
+		
+		for (BoardVO b: boards) {
 			System.out.println(b.getViewCount());
 		}
-		
-		model.addAttribute("boards", boardList);	
-		model.addAttribute("searchOption", searchOption);
-		model.addAttribute("keyword", keyword);
+		model.addAttribute("boards",boards);
+		model.addAttribute("pageMaker", new PageDTO(cri, bs.getTotalCount(cri))); 
 		return "board/board_list";
 	}
 	
@@ -62,5 +62,11 @@ public class BoardController {
 		return "board/modify";
 	}
 	
+//	@GetMapping("/list") // 조회하는 경우에는 get방식을 사용
+//	public void list(Criteria cri, Model model) {
+//	    model.addAttribute("list", bs.getList(cri));
+//	    model.addAttribute("pageMaker", new PageDTO(cri,123));
+//	}
+//	
 
 }

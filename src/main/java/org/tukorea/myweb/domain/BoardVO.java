@@ -2,18 +2,17 @@ package org.tukorea.myweb.domain;
 
 import java.util.Date;
 
-import org.tukorea.myweb.dto.SaveBoardDto.SaveBoardDtoBuilder;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class BoardVO {
 
 	//게시판 번호

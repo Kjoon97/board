@@ -10,9 +10,11 @@ import org.tukorea.myweb.dto.UpdateBoardDto;
 import org.tukorea.myweb.persistence.BoardDAO;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BoardService {
 	
 	private final BoardDAO boardDAO;
@@ -21,8 +23,8 @@ public class BoardService {
 		boardDAO.add(board);
 	}
 	
-	public List<BoardVO> readBoardList(String searchOption, String keyword) throws Exception {
-		return boardDAO.readList(searchOption, keyword);
+	public List<BoardVO> readBoardList() throws Exception {
+		return boardDAO.readList();
 	}
 	
 	public BoardVO readBoardDetail(int id) throws Exception {
@@ -44,6 +46,16 @@ public class BoardService {
 	//조회 수 증가
 	public void updateViewCnt(int id) throws Exception {
 		boardDAO.updateViewCount(id);
+	}
+	
+	//페이징 읽어오기.
+	public List<BoardVO> getList(Criteria cri) {
+	    return boardDAO.getListWithPaging(cri);
+	}
+	
+	//전체 수 읽어오기
+	public int getTotalCount(Criteria cri) {
+		return boardDAO.getTotalCount(cri);
 	}
 	
 }

@@ -32,7 +32,7 @@
         </form>
         <div class="text-center">
             <button id="btn-save" class="btn btn-dark">글 작성</button>
-            <a href="/" class="btn btn-danger">취소</a>
+            <a href="/list" class="btn btn-danger">취소</a>
         </div>
     </div>
     <script src="${path}/resources/js/board.js"></script>

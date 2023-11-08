@@ -38,7 +38,7 @@
 		  </tbody>
 		</table>
 		<br>
-			<a href="/" class="btn btn-warning">목록</a>
+			<a href="/list" class="btn btn-warning">목록</a>
 			<a href="/board/modify/${board.id}" class="btn btn-primary">수정</a>
 			<button id="btn-delete" type="button" class="btn btn-danger">삭제</button>
 	</div>

@@ -1,16 +1,25 @@
 package org.tukorea.myweb.domain;
 
-import org.springframework.web.util.UriComponentsBuilder;
-
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-
-//파라미터들을 맡아서 관리하는 클래스
-
-@Data
+@Getter
+@Setter
+@ToString
 public class Criteria {
+	private int pageNum;
+	private int amount;
 	
+	private String type;
 	private String keyword;
+	
+	public Criteria(){
+		this(1,5);
+	}
+	
+	public Criteria(int pageNum, int amount) {
+		this.pageNum = pageNum;
+		this.amount = amount;
+	}
 }
