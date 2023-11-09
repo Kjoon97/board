@@ -10,6 +10,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <title>게시물 등록</title>
 </head>
 <body style="margin:150px">
@@ -20,8 +22,8 @@
                 <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요">
             </div>
             <div class="form-group">
-                <label for="content">내용</label>
-                <textarea class="form-control" id="content" placeholder="내용을 입력하세요"></textarea>
+           		 <label for="content">Content:</label>
+           		 <textarea class="form-control summernote" rows="5" id="content"></textarea>
             </div>
             <div class="form-group">
                 <label for="userId">계정</label>
@@ -32,9 +34,15 @@
         </form>
         <div class="text-center">
             <button id="btn-save" class="btn btn-dark">글 작성</button>
-            <a href="/list" class="btn btn-danger">취소</a>
+            <a href="/" class="btn btn-danger">취소</a>
         </div>
     </div>
+    <script>
+      $('.summernote').summernote({
+        tabsize: 2,
+        height: 300
+      });
+</script>
     <script src="${path}/resources/js/board.js"></script>
 </body>
 </html>

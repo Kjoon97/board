@@ -85,26 +85,41 @@ td:nth-child(2) a {
 h1, h4 {
     text-align: left; /* 왼쪽 정렬로 변경 */
 }
+.search-container {
+	width: 870px; 
+	height:75px; 
+	background-color: #e8eaf1;
+	padding: 20px;
+	margin-bottom: 10px;
+}
+a[class^="btn_"] .lens {
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+    vertical-align: middle;
+    background: url("/resources/img/search.png") no-repeat;
+}
 </style>
 </head>
 <body style="margin: 150px">
-	<div class="container text-center" style="width: 870px;">
-	<h1>공지사항</h1>
-	<br>
-	<h4>롯데관광의 공지사항 및 새로운 소식을 알려드립니다.</h4>
-	<br>
 		<div class="container text-center" style="width: 870px;">
+            	<h1>공지사항</h1>
+				<br>
+				<h4>롯데관광의 공지사항 및 새로운 소식을 알려드립니다.</h4>
+				<br>
             <!-- 검색기능 -->
-            <!-- 검색기능 -->
-            <form id="searchForm" action="/list" method="get" style="width: 870px;">
+      		<div class="search-container">
+            <form id="searchForm" action="/" method="get" style="width: 830px;">
                 <select name="type" style="width: 110px; height: 35px;">
                     <option value="T" <c:out value='${pageMaker.cri.type eq "T"?"selected": "" }'/>>제목</option>
                     <option value="C" <c:out value='${pageMaker.cri.type eq "C"?"selected": "" }'/>>내용</option>
                     <option value="W" <c:out value='${pageMaker.cri.type eq "W"?"selected": "" }'/>>작성자</option>
                 </select>
                 <input type="text" name="keyword" value="<c:out value='${pageMaker.cri.keyword}'/>" style="width: 310.52px; height: 34px;">
-                <button class="btn btn-primary" style="width: 80px; height: 34px;">검색</button>
+                <button style="width: 33px; height: 34px; background-color: #3c64d6; padding:0px;"><img src="/resources/img/search.png" style="width: 25px; height: 25px;"></button>
             </form>
+            </div>
+               <!-- 검색기능 -->
 			<table class="table table-horizontal table-bordered">
 				<thead class="thead-strong">
 					<tr>
@@ -153,7 +168,7 @@ h1, h4 {
 			</nav>
 			<!-- /.page -->
 
-			<form id='actionForm' action="/list" method="get">
+			<form id='actionForm' action="/" method="get">
 				<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 				<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
 				<input type="hidden" name="type" value="<c:out value='${pageMaker.cri.type}'/>">
@@ -162,31 +177,16 @@ h1, h4 {
 
 			<br>
 			<div class="text-center">
-				<a href="http://localhost:8080/board/register" class="btn btn-primary">게시글 등록</a>
+				<a href="http://localhost:8080/board/register" class="btn btn-outline-dark">게시글 등록</a>
 			</div>
 		</div>
-	</div>
+
 	<script>
 		var actionForm = $('#actionForm');
 		$('.paginate_button a').on('click', function(e) {
 			e.preventDefault(); //걸어둔 링크로 이동하는 것을 일단 막음 
 			actionForm.find('input[name="pageNum"]').val($(this).attr('href'));
 			actionForm.submit();
-		});
-
-		var searchForm = $('#searchForm');
-		$('#searchForm button').on('click', function(e) {
-			if (!searchForm.find('option:selected').val()) {
-				alert('검색종류를 선택하세요');
-				return false;
-			}
-			if (!searchForm.find('input[name="keyword"]').val()) {
-				alert('키워드를 입력하세요');
-				return false;
-			}
-			e.preventDefault();
-			searchForm.find('input[name="pageNum"]').val('1');
-			searchForm.submit();
 		});
 	</script>
 </body>

@@ -21,6 +21,6 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="org.tukorea.myweb.controller" />
+	<context:component-scan base-package="com.lottetour.web.controller" />
 	
 </beans:beans>

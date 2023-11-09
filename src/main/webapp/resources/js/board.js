@@ -28,7 +28,7 @@ let index ={
             dataType: "json"
          }).done(function(resp){
             alert("글 작성이 완료 되었습니다.");
-            location.href ="/list";
+            location.href ="/";
          }).fail(function(error){
             alert(JSON.stringify(error));
          });
@@ -44,7 +44,7 @@ let index ={
                  dataType: "json"
               }).done(function(resp){
                  alert("글 삭제가 완료 되었습니다.");
-                 location.href ="/list";
+                 location.href ="/";
               }).fail(function(error){
                  alert(JSON.stringify(error));
               });

@@ -6,6 +6,6 @@
 
 <configuration>
   <typeAliases>
-        <package name="org.tukorea.myweb.domain" />
+        <package name="com.lottetour.web.domain" />
   </typeAliases>   
 </configuration>

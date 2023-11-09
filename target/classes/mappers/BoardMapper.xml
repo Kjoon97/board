@@ -4,7 +4,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.tukorea.myweb.mapper.BoardMapper">
+<mapper namespace="com.lottetour.web.mapper.BoardMapper">
 
 
 	<insert id="insert">
@@ -15,7 +15,7 @@
 		#{userId}, SYSTIMESTAMP, SYSTIMESTAMP)
 	</insert>
 
-	<select id="selectByid" resultType="org.tukorea.myweb.domain.BoardVO">
+	<select id="selectByid" resultType="com.lottetour.web.domain.BoardVO">
 		select * from KJH_Board where
 		id =#{id}
 	</select>
@@ -32,7 +32,7 @@
 		#{id}
 	</update>
 
-	<select id="selectByMovieId" resultType="org.tukorea.myweb.domain.BoardVO">
+	<select id="selectByMovieId" resultType="com.lottetour.web.domain.BoardVO">
 		select * from KJH_Board
 		where movieId =#{movieId}
 	</select>
@@ -46,7 +46,7 @@
 		=#{id}
 	</update>
 
-	<select id="selectAll" resultType="org.tukorea.myweb.domain.BoardVO">
+	<select id="selectAll" resultType="com.lottetour.web.domain.BoardVO">
     	<![CDATA[
         	SELECT * FROM KJH_Board
         	ORDER BY id ASC
@@ -72,13 +72,15 @@
 
 
 
-	<select id="getListWithPaging" resultType="org.tukorea.myweb.domain.BoardVO">
+	<select id="getListWithPaging" resultType="com.lottetour.web.domain.BoardVO">
 		<![CDATA[
 			select *
 			from (
-				select
-				rownum rn, id, title, content, userid, updatedate, regdate, viewcount
-				from KJH_BOARD
+				select * 
+				from(
+					select rownum rn, id, title, content, userid, updatedate, regdate, viewcount from KJH_BOARD
+					order by regdate
+				)
 				where 
 		]]>
 		<include refid="criteria"></include>
@@ -86,7 +88,6 @@
 				rownum <= #{pageNum} * #{amount}
 		)
 		where rn > (#{pageNum} - 1) * #{amount}
-		order by id
 		]]>
 	</select>
 
