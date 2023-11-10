@@ -22,7 +22,7 @@
                 <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요">
             </div>
             <div class="form-group">
-           		 <label for="content">Content:</label>
+           		 <label for="content">내용</label>
            		 <textarea class="form-control summernote" rows="5" id="content"></textarea>
             </div>
             <div class="form-group">

@@ -177,7 +177,7 @@ a[class^="btn_"] .lens {
 
 			<br>
 			<div class="text-center">
-				<a href="http://localhost:8080/board/register" class="btn btn-outline-dark">게시글 등록</a>
+				<a href="/board/register" class="btn btn-outline-dark">게시글 등록</a>
 			</div>
 		</div>
 
