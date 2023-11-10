@@ -79,13 +79,13 @@
 				select * 
 				from(
 					select rownum rn, id, title, content, userid, updatedate, regdate, viewcount from KJH_BOARD
-					order by regdate
+					order by regdate desc
 				)
 				where 
 		]]>
 		<include refid="criteria"></include>
 		<![CDATA[		
-				rownum <= #{pageNum} * #{amount}
+				rn <= #{pageNum} * #{amount}
 		)
 		where rn > (#{pageNum} - 1) * #{amount}
 		]]>
