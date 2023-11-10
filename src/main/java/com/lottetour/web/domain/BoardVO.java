@@ -55,11 +55,18 @@ public class BoardVO {
 	//조회 수 
 	private int viewCount;
 	
+	//삭제 유무 
+	private int isDeleted;
+	
 	public void updateBoard(String title, String content, String userId, int viewCount) {
 		this.title = title;
 		this.content = content;
 		this.userId = userId;
 		this.viewCount = viewCount;
+	}
+	
+	public void updateIsDeleted(int isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 }

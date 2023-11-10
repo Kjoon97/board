@@ -39,7 +39,7 @@ let index ={
               //ajax 호출 default가 비동기 호출.
               console.log(id)
               $.ajax({
-                 type: "DELETE",
+                 type: "PATCH",
                  url: "/api/board/"+id,
                  dataType: "json"
               }).done(function(resp){

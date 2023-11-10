@@ -62,7 +62,8 @@ public class BoardDAO {
 	
 	//글 삭제
 	public void deleteById(int id) throws Exception {
-		sqlSession.delete(namespace + ".delete", id);
+		//sqlSession.delete(namespace + ".delete", id);
+		sqlSession.update(namespace+ ".changeIsDeleted", id);
 	}
 	
 	//글 수정
@@ -84,6 +85,5 @@ public class BoardDAO {
 	public int getTotalCount(Criteria cri) {
 		return sqlSession.selectOne(namespace+ ".getTotalCount", cri);
 	}
-	
 
 }
