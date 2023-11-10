@@ -31,11 +31,12 @@
 		where id =
 		#{id}
 	</update>
-
-	<select id="selectByMovieId" resultType="com.lottetour.web.domain.BoardVO">
-		select * from KJH_Board
-		where movieId =#{movieId}
-	</select>
+	
+	<update id="changeIsDeleted" parameterType="BoardVO">
+		update KJH_Board
+		set is_deleted = 1, updatedate = SYSTIMESTAMP
+		where id =#{id}
+	</update>
 
 	<delete id="delete">
 		delete from KJH_Board where id = #{id}
@@ -73,21 +74,18 @@
 
 
 	<select id="getListWithPaging" resultType="com.lottetour.web.domain.BoardVO">
-		<![CDATA[
-			select *
-			from (
-				select * 
-				from(
-					select rownum rn, id, title, content, userid, updatedate, regdate, viewcount from KJH_BOARD
-					order by regdate desc
-				)
-				where 
+	<![CDATA[
+		SELECT * FROM(
+			SELECT ROWNUM AS RNUM, A.* FROM (
+				SELECT * FROM KJH_BOARD
+				WHERE is_deleted = 0
+				ORDER BY regdate DESC 
+			) A WHERE
 		]]>
 		<include refid="criteria"></include>
-		<![CDATA[		
-				rn <= #{pageNum} * #{amount}
-		)
-		where rn > (#{pageNum} - 1) * #{amount}
+		<![CDATA[
+			 ROWNUM <=#{pageNum}*#{amount}
+		) WHERE RNUM > (#{pageNum}-1)*#{amount}
 		]]>
 	</select>
 
@@ -99,7 +97,7 @@
     	]]>
 		<include refid="criteria"></include>
     	<![CDATA[
-    		 id > 0
+    		 id > 0 and is_deleted=0
 		]]>
 	</select>
 
