@@ -2,13 +2,17 @@ package com.lottetour.web.service;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.lottetour.web.domain.BoardVO;
 import com.lottetour.web.domain.Criteria;
+import com.lottetour.web.dto.Password;
+import com.lottetour.web.dto.ResponseDto;
 import com.lottetour.web.dto.SaveBoardDto;
 import com.lottetour.web.dto.UpdateBoardDto;
 import com.lottetour.web.persistence.BoardDAO;
+import com.lottetour.web.util.Encrypt;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardService {
 	
 	private final BoardDAO boardDAO;
+	private final Encrypt encrypt;
 	
 	public void addBoard(BoardVO board) throws Exception {
 		boardDAO.add(board);
@@ -57,11 +62,42 @@ public class BoardService {
 		boardDAO.deleteById(id);
 	}
 	
-	public void update(int id, UpdateBoardDto updateBoardDto) throws Exception {
+	public ResponseDto update(int id, UpdateBoardDto updateBoardDto) throws Exception {
 		
 		BoardVO boardVO = boardDAO.readDetail(id);
-		boardVO.updateBoard(updateBoardDto.getTitle(), updateBoardDto.getContent(), updateBoardDto.getUserId(), updateBoardDto.getViewCount());
-		boardDAO.updateBoard(boardVO);
+		String storedSalt = boardVO.getSalt();
+		String storedPasswd = boardVO.getPasswd();
+		String inputPasswd = updateBoardDto.getPasswd();
+		
+		String inputEncodedPasswd = encrypt.getEncrypt(inputPasswd, storedSalt);
+		
+		if (storedPasswd.equals(inputEncodedPasswd)) {
+			boardVO.updateBoard(updateBoardDto.getTitle(), updateBoardDto.getContent(), updateBoardDto.getUserId(), updateBoardDto.getViewCount());
+			boardDAO.updateBoard(boardVO);
+			System.out.println("성공했습니다.");
+			return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+		} else {
+			System.out.println("실패했습니다.");
+			return new ResponseDto<String>(HttpStatus.BAD_REQUEST.value(), "잘못된 비밀번호입니다.");
+		}
+		
+	}
+	
+	public ResponseDto checkPasswd(int id, Password password) throws Exception {
+		BoardVO boardVO = boardDAO.readDetail(id);
+		String storedSalt = boardVO.getSalt();
+		String storedPasswd = boardVO.getPasswd();
+		
+		String inputEncodedPasswd = encrypt.getEncrypt(password.getPasswd(), storedSalt); 
+		
+		if (storedPasswd.equals(inputEncodedPasswd)) {
+			System.out.println("성공했습니다.");
+			boardDAO.deleteById(id);
+			return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+		} else {
+			System.out.println("실패했습니다.");
+			return new ResponseDto<String>(HttpStatus.BAD_REQUEST.value(), "잘못된 비밀번호입니다.");
+		}
 	}
 	
 	//조회 수 증가

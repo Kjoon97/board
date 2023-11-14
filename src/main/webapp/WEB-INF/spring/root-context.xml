@@ -51,7 +51,7 @@
    <context:component-scan base-package="com.lottetour.web.service" />
    <context:component-scan base-package="com.lottetour.web.domain" />
    <context:component-scan base-package="com.lottetour.web.aop"/>
- 
+   <context:component-scan base-package="com.lottetour.web.util"/>
   	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
 </beans>

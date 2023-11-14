@@ -32,6 +32,7 @@ public class UpdateBoardDto {
     private String content;
     private String userId;
     private int viewCount;
+    private String passwd;
     
     @Builder
     public UpdateBoardDto(String title, String content, String userId, int viewCount){

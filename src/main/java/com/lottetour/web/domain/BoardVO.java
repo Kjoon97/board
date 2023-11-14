@@ -58,11 +58,25 @@ public class BoardVO {
 	//삭제 유무 
 	private int isDeleted;
 	
+	//비밀 번호.
+	private String passwd;
+	
+	//salt
+	private String salt;
+	
 	public void updateBoard(String title, String content, String userId, int viewCount) {
 		this.title = title;
 		this.content = content;
 		this.userId = userId;
 		this.viewCount = viewCount;
+	}
+	
+	public void registerPassword(String passwd) {
+		this.passwd = passwd;
+	}
+	
+	public void registerSalt(String salt) {
+		this.salt = salt;
 	}
 	
 	public void updateIsDeleted(int isDeleted) {

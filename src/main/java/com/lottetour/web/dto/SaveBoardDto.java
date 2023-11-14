@@ -1,5 +1,8 @@
 package com.lottetour.web.dto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+
 import com.lottetour.web.domain.BoardVO;
 
 import lombok.AllArgsConstructor;
@@ -31,6 +34,7 @@ public class SaveBoardDto {
     private String title;
     private String content;
     private String userId;
+    private String passwd;
     
     @Builder
     public SaveBoardDto(String title, String content, String userId){

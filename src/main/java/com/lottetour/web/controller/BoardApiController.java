@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lottetour.web.domain.BoardVO;
+import com.lottetour.web.dto.Password;
 import com.lottetour.web.dto.ResponseDto;
 import com.lottetour.web.dto.SaveBoardDto;
 import com.lottetour.web.dto.UpdateBoardDto;
 import com.lottetour.web.service.BoardService;
+import com.lottetour.web.util.Encrypt;
 
 import lombok.RequiredArgsConstructor;
 
@@ -48,13 +50,17 @@ import lombok.RequiredArgsConstructor;
 public class BoardApiController {
 	
 	private final BoardService boardService;
+	private final Encrypt encrypt;
 	
     //글 작성
     @PostMapping("/api/board")
     public ResponseDto<Integer> save(@RequestBody SaveBoardDto saveBoardDto) throws Exception{
-    	
     
     	BoardVO boardVO = saveBoardDto.toEntity();
+    	String salt = encrypt.getSalt();
+    	String encodedPasswd = encrypt.getEncrypt(saveBoardDto.getPasswd(),salt);
+    	boardVO.registerSalt(salt);
+    	boardVO.registerPassword(encodedPasswd);
     	System.out.println(saveBoardDto.getUserId());
     	System.out.println(boardVO.getUserId());
         boardService.addBoard(boardVO);
@@ -64,17 +70,20 @@ public class BoardApiController {
     }
     //글 삭제
     @PatchMapping("/api/board/{id}")
-    public ResponseDto<Integer> deleteById(@PathVariable int id) throws Exception{
+    public ResponseDto deleteById(@PathVariable int id, @RequestBody Password password) throws Exception{
+    	ResponseDto response = boardService.checkPasswd(id, password);
     	System.out.println("삭제한 id: "+ id);
-    	boardService.deleteBoard(id);
-    	return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+    	//boardService.deleteBoard(id);
+    	return response;
     }
     
     //글 수정하기
     @PutMapping("/api/board/{id}")
-    public ResponseDto<Integer> update(@PathVariable int id, @RequestBody UpdateBoardDto updateBoardDto) throws Exception{
-        boardService.update(id, updateBoardDto);
-        return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+    public ResponseDto update(@PathVariable int id, @RequestBody UpdateBoardDto updateBoardDto) throws Exception{
+    	ResponseDto response = boardService.update(id, updateBoardDto);
+    	System.out.println(response.getStatusCode());
+    	System.out.println(response.getData());
+        return response;
     }
 
 }

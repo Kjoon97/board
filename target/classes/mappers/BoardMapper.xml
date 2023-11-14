@@ -8,11 +8,9 @@
 
 
 	<insert id="insert">
-		insert into KJH_Board (id, title, content, userId,
-		updatedate, regdate)
+		insert into KJH_Board (id, title, content, passwd, salt, userId, updatedate, regdate)
 		values
-		(SEQ_BOARD.NEXTVAL, #{title}, #{content},
-		#{userId}, SYSTIMESTAMP, SYSTIMESTAMP)
+		(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{passwd}, #{salt}, #{userId}, SYSTIMESTAMP, SYSTIMESTAMP)
 	</insert>
 
 	<select id="selectByid" resultType="com.lottetour.web.domain.BoardVO">

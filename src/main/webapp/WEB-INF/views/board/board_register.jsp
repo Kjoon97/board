@@ -13,6 +13,15 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <title>게시물 등록</title>
+    <style>
+    #pw-text1, #pw-text2, #pw-text3, #pw-text4,
+    #title-text1, #content-text1, #userId-text1
+    {
+        	color: red;
+        	font-weight: bold;
+        	margin-top: 5px;
+        }
+    </style>
 </head>
 <body style="margin:150px">
     <div class="container d-flex justify-content-center align-items-center flex-column">
@@ -20,14 +29,25 @@
             <div class="form-group">
                 <label for="title">제목</label>
                 <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요">
+                <div id="title-text1">제목을 입력해주세요.</div>
             </div>
             <div class="form-group">
            		 <label for="content">내용</label>
            		 <textarea class="form-control summernote" rows="5" id="content"></textarea>
+           		 <div id="content-text1">내용을 입력해주세요.</div>
             </div>
             <div class="form-group">
                 <label for="userId">계정</label>
                 <input type="text" class="form-control" id="userId" placeholder="계정을 입력하세요">
+                <div id="userId-text1">계정을 입력해주세요.</div>
+            </div>
+            <div class="form-group">
+                <label for="passwd">비밀번호</label>
+                <input type="text" class="form-control" id="passwd" placeholder="게시글 비밀번호를 입력하세요">
+				<div id="pw-text1">비밀번호를 입력해주세요.</div>
+                <div id="pw-text2">8자리 ~ 12자리 이내로 입력해주세요.</div>
+				<div id="pw-text3">비밀번호는 공백 없이 입력해주세요.</div>
+				<div id="pw-text4">영문,숫자,특수문자를 혼합하여 입력해주세요.</div>
             </div>
             <br>
             <br>
