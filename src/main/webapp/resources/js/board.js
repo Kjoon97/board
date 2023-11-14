@@ -22,18 +22,24 @@ let index ={
          $("#userId-text1").hide();
          $("#content-text1").hide();
          $("#title-text1").hide();
+         $("#deletedate-text1").hide();
          $("#passwd").on('input',()=>{
         	this.passwdValidation(); 
          });
      },
 
      save: function(){
+    	 
          let data = {
                title: $("#title").val(),
                content: $("#content").val(),
                userId: $("#userId").val(),
-               passwd: $("#passwd").val()
+               passwd: $("#passwd").val(),
+               inputdeletedate : $("#deletedate").val(),
+               deletedate: $("#deletedate").val() + 'T02:00:00'
          };
+
+         
          if(!data.title || data.title.trim() === ""){
         	 $('#title-text1').show();
         	 return false;
@@ -46,6 +52,10 @@ let index ={
         	 $('#userId-text1').show();
         	 return false;
          }
+         if(!data.inputdeletedate || data.inputdeletedate.trim() === ""){
+        	 $('#deletedate-text1').show();
+        	 return false;
+         } 
          if(!data.passwd || data.passwd.trim() === ""){
         	 $('#pw-text1').show();
         	 return false;
@@ -106,7 +116,9 @@ let index ={
                title: $("#title").val(),
                content: $("#content").val(),
                userId:$("#userId").val(),
-               passwd: $("#passwd").val()
+               passwd: $("#passwd").val(),
+               inputdeletedate : $("#deletedate").val(),
+               deletedate: $("#deletedate").val() + 'T02:00:00'
          };
          if(!data.title || data.title.trim() === ""){
         	 $('#title-text1').show();
@@ -120,6 +132,10 @@ let index ={
         	 $('#userId-text1').show();
         	 return false;
          }
+         else if(!data.inputdeletedate || data.inputdeletedate.trim() === ""){
+        	 $('#deletedate-text1').show();
+        	 return false;
+         } 
          else if(!data.passwd || data.passwd.trim() === ""){
         	 $('#pw-text1').show();
         	 return false;

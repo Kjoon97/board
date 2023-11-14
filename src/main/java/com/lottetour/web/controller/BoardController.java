@@ -1,5 +1,7 @@
 package com.lottetour.web.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -78,7 +80,12 @@ public class BoardController {
 	@GetMapping(value="/board/modify/{id}")
 	public String modifyBoard(@PathVariable int id, Model model) throws Exception {
 		BoardVO board = bs.readBoardDetail(id);
+		
+		Date dd = board.getDeletedate();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String deletedate  = sdf.format(dd);
 		System.out.println(board.getTitle());
+		model.addAttribute("deletedate", deletedate);
 		model.addAttribute("board",board);
 		return "board/modify";
 	}

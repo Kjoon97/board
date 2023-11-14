@@ -8,9 +8,9 @@
 
 
 	<insert id="insert">
-		insert into KJH_Board (id, title, content, passwd, salt, userId, updatedate, regdate)
+		insert into KJH_Board (id, title, content, passwd, salt, userId, updatedate, regdate, deletedate)
 		values
-		(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{passwd}, #{salt}, #{userId}, SYSTIMESTAMP, SYSTIMESTAMP)
+		(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{passwd}, #{salt}, #{userId}, SYSTIMESTAMP, SYSTIMESTAMP, #{deletedate})
 	</insert>
 
 	<select id="selectByid" resultType="com.lottetour.web.domain.BoardVO">
@@ -21,13 +21,9 @@
 
 	<update id="update" parameterType="BoardVO">
 		update KJH_Board
-		set title =
-		#{title,jdbcType=VARCHAR}, content =
-		#{content,jdbcType=VARCHAR},
-		userId =#{userId,jdbcType=VARCHAR},
-		updatedate = SYSTIMESTAMP
-		where id =
-		#{id}
+		set title =#{title,jdbcType=VARCHAR}, content =#{content,jdbcType=VARCHAR},
+		userId =#{userId,jdbcType=VARCHAR}, deletedate =#{deletedate,jdbcType=VARCHAR}, updatedate = SYSTIMESTAMP
+		where id =#{id}
 	</update>
 	
 	<update id="changeIsDeleted" parameterType="BoardVO">
@@ -98,6 +94,12 @@
     		 id > 0 and is_deleted=0
 		]]>
 	</select>
+	
+	<update id="deleteListBySchedule">
+		update KJH_Board
+		set is_deleted = 1, updatedate = SYSTIMESTAMP
+		where TO_CHAR(deletedate, 'YYYY-MM-DD') = TO_DATE(#{dateString})
+	</update>
 
 
 </mapper>  

@@ -1,5 +1,7 @@
 package com.lottetour.web.dto;
 
+import java.util.Date;
+
 import com.lottetour.web.domain.BoardVO;
 
 import lombok.AllArgsConstructor;
@@ -33,6 +35,7 @@ public class UpdateBoardDto {
     private String userId;
     private int viewCount;
     private String passwd;
+    private Date deletedate;
     
     @Builder
     public UpdateBoardDto(String title, String content, String userId, int viewCount){
@@ -48,6 +51,7 @@ public class UpdateBoardDto {
                 .content(content)
                 .userId(userId)
                 .viewCount(viewCount)
+                .deletedate(deletedate)
                 .build();
     }
     

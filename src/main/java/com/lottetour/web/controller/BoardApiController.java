@@ -80,7 +80,9 @@ public class BoardApiController {
     //글 수정하기
     @PutMapping("/api/board/{id}")
     public ResponseDto update(@PathVariable int id, @RequestBody UpdateBoardDto updateBoardDto) throws Exception{
+    	System.out.println(updateBoardDto.getDeletedate());
     	ResponseDto response = boardService.update(id, updateBoardDto);
+    	
     	System.out.println(response.getStatusCode());
     	System.out.println(response.getData());
         return response;

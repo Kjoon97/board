@@ -70,7 +70,7 @@ h1, h4, p {
 			<form>
 				<div class="my-3">
 					<input type="text" class="form-control" id="passwd" placeholder="게시글 비밀번호를 입력하세요">
-                	<div id="pw-text1">공백 또는 입력하지 않은 부분이 있습니다.</div>
+                	<div id="pw-text1">비밀번호를 입력해주세요.</div>
                 	<div id="pw-text2">8자리 ~ 12자리 이내로 입력해주세요.</div>
 					<div id="pw-text3">비밀번호는 공백 없이 입력해주세요.</div>
 					<div id="pw-text4">영문,숫자,특수문자를 혼합하여 입력해주세요.</div>
@@ -108,6 +108,10 @@ h1, h4, p {
 				</p>
 			</div>
 		</div>
+			<p id="date">			
+				삭제 예정일:
+			<fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${board.deletedate}" />
+			</p>
 		<hr>
 		<br>
 		<div class="container text-center">

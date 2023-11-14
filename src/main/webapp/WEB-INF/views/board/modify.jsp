@@ -15,7 +15,7 @@
     <title>게시물 수정</title>
     <style>
     #pw-text1, #pw-text2, #pw-text3, #pw-text4,
-    #title-text1, #content-text1, #userId-text1
+    #title-text1, #content-text1, #userId-text1, #deletedate-text1
     {
         	color: red;
         	font-weight: bold;
@@ -46,6 +46,11 @@
                 <div id="userId-text1">계정을 입력해주세요.</div>
             </div>
             <div class="form-group">
+                <label for="deletedate">삭제일</label>
+                <input type="date" class="form-control" id="deletedate" value="${deletedate}">
+                <div id="deletedate-text1">삭제일을 입력해주세요.</div>
+            </div>
+            <div class="form-group">
                 <label for="passwd">비밀번호</label>
                 <input type="text" class="form-control" id="passwd" placeholder="게시글 비밀번호를 입력하세요">
                 <div id="pw-text1">비밀번호를 입력해주세요.</div>
@@ -64,6 +69,12 @@
         tabsize: 2,
         height: 300
       });
+      var today = new Date();  // 현재 날짜를 가져오기
+      var tomorrow = new Date(today);  // 내일 날짜 계산
+      tomorrow.setDate(today.getDate() + 1);
+      var formattedDate = tomorrow.toISOString().split('T')[0]; // 날짜를 'YYYY-MM-DD' 형식으로 포맷팅
+      var deleteDateInput = document.getElementById('deletedate'); // input 요소 찾기
+      deleteDateInput.min = formattedDate; // min 속성 설정
 	</script>
     <script src="${path}/resources/js/board.js"></script>
 </body>

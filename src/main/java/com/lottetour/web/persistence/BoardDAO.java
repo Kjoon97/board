@@ -1,6 +1,8 @@
 package com.lottetour.web.persistence;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +86,11 @@ public class BoardDAO {
 	//전체 수
 	public int getTotalCount(Criteria cri) {
 		return sqlSession.selectOne(namespace+ ".getTotalCount", cri);
+	}
+	
+	//해당 날짜에 게시물 삭제 컬럼 update
+	public void DeleteListByDate(String dateString ){
+		sqlSession.update(namespace + ".deleteListBySchedule", dateString);
 	}
 
 }

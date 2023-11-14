@@ -1,5 +1,7 @@
 package com.lottetour.web.dto;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -35,6 +37,7 @@ public class SaveBoardDto {
     private String content;
     private String userId;
     private String passwd;
+    private Date deletedate;
     
     @Builder
     public SaveBoardDto(String title, String content, String userId){
@@ -48,6 +51,7 @@ public class SaveBoardDto {
                 .title(title)
                 .content(content)
                 .userId(userId)
+                .deletedate(deletedate)
                 .build();
     }
     
