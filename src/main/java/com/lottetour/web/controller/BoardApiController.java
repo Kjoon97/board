@@ -25,6 +25,7 @@ import com.lottetour.web.service.BoardService;
 import com.lottetour.web.util.Encrypt;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
 * @package com.lottetour.web.Controller
@@ -44,7 +45,7 @@ import lombok.RequiredArgsConstructor;
 * </pre>
 */
 
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class BoardApiController {
@@ -61,18 +62,15 @@ public class BoardApiController {
     	String encodedPasswd = encrypt.getEncrypt(saveBoardDto.getPasswd(),salt);
     	boardVO.registerSalt(salt);
     	boardVO.registerPassword(encodedPasswd);
-    	System.out.println(saveBoardDto.getUserId());
-    	System.out.println(boardVO.getUserId());
         boardService.addBoard(boardVO);
-    	System.out.println("글작성");
-    	System.out.println(saveBoardDto.getTitle());
+        log.info("글작성");
     	return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
     //글 삭제
     @PatchMapping("/api/board/{id}")
     public ResponseDto<?> deleteById(@PathVariable int id, @RequestBody Password password) throws Exception{
     	ResponseDto<?> response = boardService.checkPasswd(id, password);
-    	System.out.println("삭제한 id: "+ id);
+    	log.info("삭제한 id: "+id);
     	//boardService.deleteBoard(id);
     	return response;
     }
@@ -83,8 +81,9 @@ public class BoardApiController {
     	System.out.println(updateBoardDto.getDeletedate());
     	ResponseDto<?> response = boardService.update(id, updateBoardDto);
     	
-    	System.out.println(response.getStatusCode());
-    	System.out.println(response.getData());
+    	log.info("수정 후 응답 코드: "+ response.getStatusCode());
+    	log.info("수정 후 응답 데이터: "+ response.getData());
+ 
         return response;
     }
 

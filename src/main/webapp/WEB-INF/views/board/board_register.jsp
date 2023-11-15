@@ -38,7 +38,7 @@
             </div>
             <div class="form-group">
                 <label for="userId">계정</label>
-                <input type="text" class="form-control" id="userId" placeholder="계정을 입력하세요" onchange="validateDate()">
+                <input type="text" class="form-control" id="userId" placeholder="계정을 입력하세요">
                 <div id="userId-text1">계정을 입력해주세요.</div>
             </div>
             <div class="form-group">

@@ -38,7 +38,7 @@ let index ={
                inputdeletedate : $("#deletedate").val(),
                deletedate: $("#deletedate").val() + 'T02:00:00'
          };
-
+        
          
          if(!data.title || data.title.trim() === ""){
         	 $('#title-text1').show();
@@ -60,8 +60,39 @@ let index ={
         	 $('#pw-text1').show();
         	 return false;
          } 
+         pw = data.passwd;
+    	 var num = pw.search(/[0-9]/g);
+    	 var eng = pw.search(/[a-z]/ig);
+    	 var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+    	 
+    	 if(data.passwd.length < 6 || data.passwd.length > 12){
+    		 $('#pw-text2').show();
+    		 $('#pw-text1').hide();
+    		 $('#pw-text3').hide();
+    		 $('#pw-text4').hide();
+    		 return false;
+    		 
+    	 }else if(data.passwd.search(/\s/) != -1){
+    		 $('#pw-text3').show();
+    		 return false;
+    		
+    	 }else if(num < 0 || eng < 0 || spe < 0 ){
+    		 $('#pw-text4').show();
+    		 $('#pw-text1').hide();
+    		 $('#pw-text2').hide();
+    		 $('#pw-text3').hide();
+    		 return false;
+    	 }
+         
+         var today = new Date();
+         var DeleteDateObj = new Date(data.deletedate);
+         
+         if (DeleteDateObj < today) {
+             alert("삭제일은 오늘 날짜보다 이후여야합니다.");
+             return false;
+         }
+         
          console.log(data)
-
          //ajax 호출 default가 비동기 호출.
          $.ajax({
             type: "POST",
@@ -141,7 +172,15 @@ let index ={
         	 return false;
          } 
          console.log(data)
-
+         
+         var today = new Date();
+         var DeleteDateObj = new Date(data.deletedate);
+         
+         if (DeleteDateObj < today) {
+             alert("삭제일은 오늘 날짜보다 이후여야합니다.");
+             return false;
+         }
+         
          //ajax 호출 default가 비동기 호출.
          $.ajax({
             type: "PUT",

@@ -102,7 +102,7 @@ h1, h4, p {
 					수정일:
 					<fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${board.updatedate}" />
 				</p>
-				<p id="viewCount" style="display: inline-block; margin-left: 10px;">
+				<p id="viewCount" style="display: inline-block; margin-left: 15px;">
 					조회:
 					<c:out value="${board.viewCount}" />
 				</p>

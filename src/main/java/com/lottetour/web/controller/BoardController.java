@@ -15,6 +15,7 @@ import com.lottetour.web.dto.PageDTO;
 import com.lottetour.web.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
 * @package com.lottetour.web.Controller
@@ -35,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 * </pre>
 */
 
-
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class BoardController {
@@ -84,7 +85,7 @@ public class BoardController {
 		Date dd = board.getDeletedate();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String deletedate  = sdf.format(dd);
-		System.out.println(board.getTitle());
+		log.info("수정 후 게시물 제목: "+board.getTitle());
 		model.addAttribute("deletedate", deletedate);
 		model.addAttribute("board",board);
 		return "board/modify";
