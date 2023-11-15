@@ -29,7 +29,7 @@ public class BoardScheduler {
 // 	@Scheduled(cron = "0 47 14 * * ?")    //매일 2시 47분
 	@Scheduled(cron = "0 0 11 * * ?")  //매일 오전 11시
 	public void DeleteBoard() throws Exception {
-		logger.info(dateString + "삭제 스케쥴러 실행");
+		logger.info("삭제 스케쥴러 실행 " + dateString);
 		boardDAO.DeleteListByDate(dateString);
 	}
 

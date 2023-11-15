@@ -70,8 +70,8 @@ public class BoardApiController {
     }
     //글 삭제
     @PatchMapping("/api/board/{id}")
-    public ResponseDto deleteById(@PathVariable int id, @RequestBody Password password) throws Exception{
-    	ResponseDto response = boardService.checkPasswd(id, password);
+    public ResponseDto<?> deleteById(@PathVariable int id, @RequestBody Password password) throws Exception{
+    	ResponseDto<?> response = boardService.checkPasswd(id, password);
     	System.out.println("삭제한 id: "+ id);
     	//boardService.deleteBoard(id);
     	return response;
@@ -79,9 +79,9 @@ public class BoardApiController {
     
     //글 수정하기
     @PutMapping("/api/board/{id}")
-    public ResponseDto update(@PathVariable int id, @RequestBody UpdateBoardDto updateBoardDto) throws Exception{
+    public ResponseDto<?> update(@PathVariable int id, @RequestBody UpdateBoardDto updateBoardDto) throws Exception{
     	System.out.println(updateBoardDto.getDeletedate());
-    	ResponseDto response = boardService.update(id, updateBoardDto);
+    	ResponseDto<?> response = boardService.update(id, updateBoardDto);
     	
     	System.out.println(response.getStatusCode());
     	System.out.println(response.getData());
