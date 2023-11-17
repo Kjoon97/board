@@ -66,11 +66,10 @@ public class BoardApiController {
   
     	return new ResponseDTO<Integer>(HttpStatus.OK.value(), 1);
     }
-    //글 삭제
+    //글 삭제(삭제 컬럼 업데이트)
     @PatchMapping("/api/board/{id}")
     public ResponseDTO<?> deleteById(@PathVariable int id, @RequestBody PasswordDTO password) throws Exception{
     	ResponseDTO<?> response = boardService.checkPasswd(id, password);
-    	//boardService.deleteBoard(id);
     	return response;
     }
     

@@ -45,13 +45,13 @@ public class BoardVO {
 	private String content;
 	
 	//등록 날짜
-	private Date regdate;
+	private Date regDate;
 	
 	//수정 날짜
-	private Date updatedate;
+	private Date updateDate;
 	
 	//삭제 날짜
-	private Date deletedate;
+	private Date deleteDate;
 	
 	//등록자 계정
 	private String userId;
@@ -68,12 +68,12 @@ public class BoardVO {
 	//salt
 	private String salt;
 	
-	public void updateBoard(String title, String content, String userId, int viewCount, Date deletedate) {
+	public void updateBoard(String title, String content, String userId, int viewCount, Date deleteDate) {
 		this.title = title;
 		this.content = content;
 		this.userId = userId;
 		this.viewCount = viewCount;
-		this.deletedate = deletedate;
+		this.deleteDate = deleteDate;
 	}
 	
 	public void registerPassword(String passwd) {

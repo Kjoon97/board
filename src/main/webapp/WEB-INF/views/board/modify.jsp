@@ -33,9 +33,9 @@
                 <div id="userId-text2">12자리 이내로 입력해주세요.</div>
             </div>
             <div class="form-group">
-                <label for="deletedate">삭제일</label>
-                <input type="date" class="form-control" id="deletedate" value="${deletedate}">
-                <div id="deletedate-text1">삭제일을 입력해주세요.</div>
+                <label for="deleteDate">삭제일</label>
+                <input type="date" class="form-control" id="deleteDate" value="${deleteDate}">
+                <div id="deleteDate-text1">삭제일을 입력해주세요.</div>
             </div>
             <div class="form-group">
                 <label for="passwd">비밀번호</label>

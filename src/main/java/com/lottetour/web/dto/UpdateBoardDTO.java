@@ -36,7 +36,7 @@ public class UpdateBoardDTO {
     private String userId;
     private int viewCount;
     private String passwd;
-    private Date deletedate;
+    private Date deleteDate;
     
     @Builder
     public UpdateBoardDTO(String title, String content, String userId, int viewCount){
@@ -52,7 +52,7 @@ public class UpdateBoardDTO {
                 .content(content)
                 .userId(userId)
                 .viewCount(viewCount)
-                .deletedate(deletedate)
+                .deleteDate(deleteDate)
                 .build();
     }
     

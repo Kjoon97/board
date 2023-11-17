@@ -5,13 +5,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lottetour.web.mapper.BoardMapper">
-
-
 	<insert id="insert">
     	INSERT INTO KJH_Board 
     	(ID, TITLE, CONTENT, PASSWD, SALT, USERID, UPDATEDATE, REGDATE, DELETEDATE)
     	VALUES
-    	(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{passwd}, #{salt}, #{userId}, SYSTIMESTAMP, SYSTIMESTAMP, TO_CHAR(#{deletedate}, 'YYYY-MM-DD'))
+    	(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{passwd}, #{salt}, #{userId}, SYSDATE, SYSDATE, TO_CHAR(#{deleteDate}, 'YYYY-MM-DD'))
 	</insert>
 
 	<select id="selectByid" resultType="com.lottetour.web.domain.BoardVO">
@@ -23,13 +21,13 @@
 	<update id="update" parameterType="BoardVO">
 		UPDATE KJH_Board
 		SET TITLE =#{title,jdbcType=VARCHAR}, CONTENT =#{content,jdbcType=VARCHAR},
-		USERID =#{userId,jdbcType=VARCHAR}, DELETEDATE = TO_CHAR(#{deletedate}, 'YYYY-MM-DD'), UPDATEDATE = SYSTIMESTAMP
+		USERID =#{userId,jdbcType=VARCHAR}, DELETEDATE = TO_CHAR(#{deleteDate}, 'YYYY-MM-DD'), UPDATEDATE = SYSDATE
 		WHERE id =#{id}
 	</update>
 	
 	<update id="changeIsDeleted" parameterType="BoardVO">
 		UPDATE KJH_Board
-		SET IS_DELETED = 1, UPDATEDATE = SYSTIMESTAMP
+		SET IS_DELETED = 1, UPDATEDATE = SYSDATE
 		WHERE ID =#{id}
 	</update>
 
@@ -100,9 +98,8 @@
 	
 	<update id="deleteListBySchedule">
 		UPDATE KJH_Board
-		SET IS_DELETED = 1, UPDATEDATE = SYSTIMESTAMP
-		WHERE TO_CHAR(deletedate, 'YYYY-MM-DD') = TO_DATE(#{dateString})
+		SET IS_DELETED = 1, UPDATEDATE = SYSDATE
+		WHERE TO_CHAR(deleteDate, 'YYYY-MM-DD') = TO_DATE(#{dateString})
 	</update>
-
 
 </mapper>  

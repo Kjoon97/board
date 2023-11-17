@@ -19,7 +19,7 @@ let index ={
          $("#userId-text1").hide(); $("#userId-text2").hide();
          $("#content-text1").hide();
          $("#title-text1").hide(); $("#title-text2").hide(); 
-         $("#deletedate-text1").hide();
+         $("#deleteDate-text1").hide();
          $("#passwd").on('input',()=>{
         	this.passwdValidation(); 
          });
@@ -32,7 +32,7 @@ let index ={
                content: $("#content").val(),
                userId: $("#userId").val(),
                passwd: $("#passwd").val(),
-               deletedate: $("#deletedate").val() 
+               deleteDate: $("#deleteDate").val() 
          };
          
          pw = data.passwd;
@@ -62,8 +62,8 @@ let index ={
         	 $('#userId-text1').hide();
         	 
         	 return false;
-         } else if(!data.deletedate || data.deletedate.trim() === ""){
-        	 $('#deletedate-text1').show();
+         } else if(!data.deleteDate || data.deleteDate.trim() === ""){
+        	 $('#deleteDate-text1').show();
         	 
         	 return false;
         	 
@@ -95,7 +95,7 @@ let index ={
     	 }
          
          var today = new Date();
-         var DeleteDateObj = new Date(data.deletedate);
+         var DeleteDateObj = new Date(data.deleteDate);
          
          if (DeleteDateObj < today) {
              alert("삭제일은 오늘 날짜보다 이후여야합니다.");
@@ -158,7 +158,7 @@ let index ={
                content: $("#content").val(),
                userId:$("#userId").val(),
                passwd: $("#passwd").val(),
-               deletedate : $("#deletedate").val()
+               deleteDate : $("#deleteDate").val()
          };
          if(!data.title || data.title.trim() === ""){
         	 $('#title-text1').show();
@@ -183,8 +183,8 @@ let index ={
         	 
         	 return false;
          }
-         else if(!data.deletedate || data.deletedate.trim() === ""){
-        	 $('#deletedate-text1').show();
+         else if(!data.deleteDate || data.deleteDate.trim() === ""){
+        	 $('#deleteDate-text1').show();
         	 return false;
          } 
          else if(!data.passwd || data.passwd.trim() === ""){
@@ -194,7 +194,7 @@ let index ={
          console.log(data)
          
          var today = new Date();
-         var DeleteDateObj = new Date(data.deletedate);
+         var DeleteDateObj = new Date(data.deleteDate);
          
          if (DeleteDateObj < today) {
              alert("삭제일은 오늘 날짜보다 이후여야합니다.");

@@ -38,7 +38,7 @@ public class SaveBoardDTO {
     private String content;
     private String userId;
     private String passwd;
-    private Date deletedate;
+    private Date deleteDate;
     
     @Builder
     public SaveBoardDTO(String title, String content, String userId){
@@ -52,7 +52,7 @@ public class SaveBoardDTO {
                 .title(title)
                 .content(content)
                 .userId(userId)
-                .deletedate(deletedate)
+                .deleteDate(deleteDate)
                 .build();
     }
     

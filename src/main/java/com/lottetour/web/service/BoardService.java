@@ -75,7 +75,7 @@ public class BoardService {
 		String inputEncodedPasswd = encrypt.getEncrypt(inputPasswd, storedSalt);
 		
 		if (storedPasswd.equals(inputEncodedPasswd)) {
-			boardVO.updateBoard(updateBoardDto.getTitle(), updateBoardDto.getContent(), updateBoardDto.getUserId(), updateBoardDto.getViewCount(), updateBoardDto.getDeletedate());
+			boardVO.updateBoard(updateBoardDto.getTitle(), updateBoardDto.getContent(), updateBoardDto.getUserId(), updateBoardDto.getViewCount(), updateBoardDto.getDeleteDate());
 			boardDAO.updateBoard(boardVO);
 			return new ResponseDTO<Integer>(HttpStatus.OK.value(), 1);
 		} else {

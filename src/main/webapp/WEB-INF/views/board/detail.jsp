@@ -42,11 +42,11 @@
 			<div>
 				<p id="date" style="display: inline-block; margin-right: 5px">
 					작성일:
-					<fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${board.regdate}" />
+					<fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${board.regDate}" />
 				</p>
 				<p id="date" style="display: inline-block;">
 					수정일:
-					<fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${board.updatedate}" />
+					<fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${board.updateDate}" />
 				</p>
 				<p id="viewCount" style="display: inline-block; margin-left: 15px;">
 					조회:
@@ -56,7 +56,7 @@
 		</div>
 			<p id="date">			
 				삭제 예정일:
-			<fmt:formatDate pattern="yyyy-MM-dd" value="${board.deletedate}" />
+			<fmt:formatDate pattern="yyyy-MM-dd" value="${board.deleteDate}" />
 			</p>
 		<hr>
 		<br>

@@ -84,10 +84,10 @@ public class BoardController {
 	public String modifyBoard(@PathVariable int id, Model model) throws Exception {
 		
 		BoardVO board = bs.readBoardDetail(id);
-		Date dd = board.getDeletedate();
+		Date dd = board.getDeleteDate();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String deletedate  = sdf.format(dd);
-		model.addAttribute("deletedate", deletedate);
+		String deleteDate  = sdf.format(dd);
+		model.addAttribute("deleteDate", deleteDate);
 		model.addAttribute("board",board);
 		
 		return "board/modify";

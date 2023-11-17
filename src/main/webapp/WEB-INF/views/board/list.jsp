@@ -49,7 +49,7 @@
 								</a>
 							</td>
 							<td>
-								<fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate}" />
+								<fmt:formatDate pattern="yyyy-MM-dd" value="${board.regDate}" />
 							</td>
 							<td>
 								<c:out value="${board.viewCount}" />
