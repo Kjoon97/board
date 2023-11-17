@@ -1,105 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 <%@ page session="false"%>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>게시물 리스트</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-<style>
-nav.page.navigation {
-    display: flex;
-    justify-content: center;
-}
-
-#searchForm {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 20px; /* 조절 가능한 여백 */
-}
-
-#searchForm select,
-#searchForm input[type="text"],
-#searchForm button {
-    height: 38px;
-}
-
-#searchForm select,
-#searchForm input[type="text"] {
-    margin-right: 10px;
-}
-
-#searchForm button {
-    margin-left: 10px;
-}
-
-#searchForm input[type="text"] {
-    width: 150px; /* 너비 조절 가능 */
-}
-
-#searchForm button {
-    margin-left: -10px; /* 버튼을 왼쪽으로 이동 */
-}
-.table {
-    width: 870px;
-    margin: auto; /* 가운데 정렬을 위해 추가 */
-}
-
-thead {
-	font-weight: normal;
-    background-color:#f0f0f0;
-    text-align: center;
-    height: 43.39px; /* 높이 조절 가능 */
-}
-
-th:first-child {
-    width: 80px; /* 번호 칸 너비 조절 가능 */
-}
-
-th:nth-child(2) {
-    width: 590px; /* 제목 칸 너비 조절 가능 */
-}
-
-th:nth-child(3) {
-    width: 120px; /* 작성일 칸 너비 조절 가능 */
-}
-
-th:nth-child(4) {
-    width: 80px; /* 조회 칸 너비 조절 가능 */
-}
-
-td:first-child, td:nth-child(3), td:nth-child(4) {
-    text-align: center;
-}
-
-td:nth-child(2) a {
-    text-decoration: none; /* 호버 시에 밑줄 제거 */
-    color: #000 !important; /* 링크 텍스트 색상을 검은색으로 설정 */
-}
-h1, h4 {
-    text-align: left; /* 왼쪽 정렬로 변경 */
-}
-.search-container {
-	width: 870px; 
-	height:75px; 
-	background-color: #e8eaf1;
-	padding: 20px;
-	margin-bottom: 10px;
-}
-a[class^="btn_"] .lens {
-    width: 20px;
-    height: 20px;
-    margin-left: 8px;
-    vertical-align: middle;
-    background: url("/resources/img/search.png") no-repeat;
-}
-</style>
+	<title>게시물 목록</title>
+	<%@include file="../layout/header.jsp" %>
+	<link href="${path}/resources/css/list.css" rel="stylesheet" type="text/css">
 </head>
 <body style="margin: 150px">
 		<div class="container text-center" style="width: 870px;">
@@ -181,13 +89,6 @@ a[class^="btn_"] .lens {
 			</div>
 		</div>
 
-	<script>
-		var actionForm = $('#actionForm');
-		$('.paginate_button a').on('click', function(e) {
-			e.preventDefault(); //걸어둔 링크로 이동하는 것을 일단 막음 
-			actionForm.find('input[name="pageNum"]').val($(this).attr('href'));
-			actionForm.submit();
-		});
-	</script>
+	<script src="${path}/resources/js/list.js"></script>
 </body>
 </html>

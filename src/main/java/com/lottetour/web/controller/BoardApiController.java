@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lottetour.web.domain.BoardVO;
-import com.lottetour.web.dto.Password;
-import com.lottetour.web.dto.ResponseDto;
-import com.lottetour.web.dto.SaveBoardDto;
-import com.lottetour.web.dto.UpdateBoardDto;
+import com.lottetour.web.dto.PasswordDTO;
+import com.lottetour.web.dto.ResponseDTO;
+import com.lottetour.web.dto.SaveBoardDTO;
+import com.lottetour.web.dto.UpdateBoardDTO;
 import com.lottetour.web.service.BoardService;
 import com.lottetour.web.util.Encrypt;
 
@@ -55,7 +55,7 @@ public class BoardApiController {
 	
     //글 작성
     @PostMapping("/api/board")
-    public ResponseDto<Integer> save(@RequestBody SaveBoardDto saveBoardDto) throws Exception{
+    public ResponseDTO<Integer> save(@RequestBody SaveBoardDTO saveBoardDto) throws Exception{
     
     	BoardVO boardVO = saveBoardDto.toEntity();
     	String salt = encrypt.getSalt();
@@ -63,27 +63,21 @@ public class BoardApiController {
     	boardVO.registerSalt(salt);
     	boardVO.registerPassword(encodedPasswd);
         boardService.addBoard(boardVO);
-        log.info("글작성");
-    	return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+  
+    	return new ResponseDTO<Integer>(HttpStatus.OK.value(), 1);
     }
     //글 삭제
     @PatchMapping("/api/board/{id}")
-    public ResponseDto<?> deleteById(@PathVariable int id, @RequestBody Password password) throws Exception{
-    	ResponseDto<?> response = boardService.checkPasswd(id, password);
-    	log.info("삭제한 id: "+id);
+    public ResponseDTO<?> deleteById(@PathVariable int id, @RequestBody PasswordDTO password) throws Exception{
+    	ResponseDTO<?> response = boardService.checkPasswd(id, password);
     	//boardService.deleteBoard(id);
     	return response;
     }
     
     //글 수정하기
     @PutMapping("/api/board/{id}")
-    public ResponseDto<?> update(@PathVariable int id, @RequestBody UpdateBoardDto updateBoardDto) throws Exception{
-    	System.out.println(updateBoardDto.getDeletedate());
-    	ResponseDto<?> response = boardService.update(id, updateBoardDto);
-    	
-    	log.info("수정 후 응답 코드: "+ response.getStatusCode());
-    	log.info("수정 후 응답 데이터: "+ response.getData());
- 
+    public ResponseDTO<?> update(@PathVariable int id, @RequestBody UpdateBoardDTO updateBoardDto) throws Exception{
+    	ResponseDTO<?> response = boardService.update(id, updateBoardDto);
         return response;
     }
 

@@ -25,13 +25,14 @@ import lombok.NoArgsConstructor;
 *   수정일         수정자           수정내용
 *  ------------    ---------    ---------------------------
 *   2023. 11. 03.    강준혁          최초 생성
+*   2023.11.13        강준혁         삭제 일자를 저장하기 위한 변수 추가.
 * </pre>
 */
 
 
 @NoArgsConstructor
 @Getter
-public class SaveBoardDto {
+public class SaveBoardDTO {
 
     private String title;
     private String content;
@@ -40,7 +41,7 @@ public class SaveBoardDto {
     private Date deletedate;
     
     @Builder
-    public SaveBoardDto(String title, String content, String userId){
+    public SaveBoardDTO(String title, String content, String userId){
         this.title = title;
         this.content =content;
         this.userId=userId;

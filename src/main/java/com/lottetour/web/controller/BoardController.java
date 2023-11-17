@@ -1,3 +1,9 @@
+
+
+
+
+
+
 package com.lottetour.web.controller;
 
 import java.text.SimpleDateFormat;
@@ -28,11 +34,12 @@ import lombok.extern.slf4j.Slf4j;
 * << 개정이력(Modification Information) >> *
 *   수정일         수정자           수정내용
 *  ------------    ---------    ---------------------------
-*   2023. 11. 03.    강준혁          최초 생성
-*   2023. 11. 0.6         강준혁 	    글 작성 -save(), 글 삭제 -deleteById() 생성.
-*   2023. 11. 0.7         강준혁 	    상세보기 조회: detailBoard(), 수정 페이지 조회: modifyBoard() 생성.
-*   2023. 11. 0.7         강준혁 	    상세보기: detailBoard()에서 조회 수 증가 updateViewCnt() 호출.
-*   2023. 11. 0.8         강준혁 	    페이징, 검색을 위해 home()에서 Criteria 매개변수 추가.
+*   2023. 11.3         강준혁          최초 생성
+*   2023. 11. 6        강준혁 	    글 작성 -save(), 글 삭제 -deleteById() 생성.
+*   2023. 11. 7        강준혁 	    상세보기 조회: detailBoard(), 수정 페이지 조회: modifyBoard() 생성.
+*   2023. 11. 7        강준혁 	    상세보기: detailBoard()에서 조회 수 증가 updateViewCnt() 호출.
+*   2023. 11. 8        강준혁 	    페이징, 검색을 위해 home()에서 Criteria 매개변수 추가.
+*   2023. 11. 15      강준혁 		print -> log으로 변경.
 * </pre>
 */
 
@@ -48,46 +55,41 @@ public class BoardController {
 	@GetMapping(value="/")
 	public String home(Criteria cri, Model model) throws Exception {
 		
-//	    model.addAttribute("list", bs.getList(cri));
-	    
-		
 		List<BoardVO> boards = bs.getList(cri);   
-		
-		for (BoardVO b: boards) {
-			System.out.println(b.getViewCount());
-		}
 		model.addAttribute("boards",boards);
 		model.addAttribute("pageMaker", new PageDTO(cri, bs.getTotalCount(cri))); 
-		return "board/board_list";
+		
+		return "board/list";
 	}
 	
 	//게시물 등록
 	@GetMapping(value="/board/register")
 	public String registerBoard() throws Exception {
-		return "board/board_register";
+		return "board/register";
 	}
 	
 	//게시물 상세보기
 	@GetMapping(value="/board/detail/{id}")
 	public String detailBoard(@PathVariable int id, Model model) throws Exception {
+		
 		BoardVO board = bs.readBoardDetail(id);
 		bs.updateViewCnt(id);
-//		System.out.println(board.getContent());
 		model.addAttribute("board",board);
+		
 		return "board/detail";
 	}
 	
 	//게시물 수정페이지
 	@GetMapping(value="/board/modify/{id}")
 	public String modifyBoard(@PathVariable int id, Model model) throws Exception {
-		BoardVO board = bs.readBoardDetail(id);
 		
+		BoardVO board = bs.readBoardDetail(id);
 		Date dd = board.getDeletedate();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String deletedate  = sdf.format(dd);
-		log.info("수정 후 게시물 제목: "+board.getTitle());
 		model.addAttribute("deletedate", deletedate);
 		model.addAttribute("board",board);
+		
 		return "board/modify";
 	}
 

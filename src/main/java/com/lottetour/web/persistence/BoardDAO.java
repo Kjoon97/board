@@ -57,7 +57,6 @@ public class BoardDAO {
 	
 	//상세보기
 	public BoardVO readDetail(int id) throws Exception {
-		System.out.println(id);
 		BoardVO boardvo = sqlSession.selectOne(namespace+".selectByid", id);
 		return boardvo;
 	}

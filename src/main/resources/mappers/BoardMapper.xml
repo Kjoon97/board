@@ -8,43 +8,46 @@
 
 
 	<insert id="insert">
-		insert into KJH_Board (id, title, content, passwd, salt, userId, updatedate, regdate, deletedate)
-		values
-		(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{passwd}, #{salt}, #{userId}, SYSTIMESTAMP, SYSTIMESTAMP, #{deletedate})
+    	INSERT INTO KJH_Board 
+    	(ID, TITLE, CONTENT, PASSWD, SALT, USERID, UPDATEDATE, REGDATE, DELETEDATE)
+    	VALUES
+    	(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{passwd}, #{salt}, #{userId}, SYSTIMESTAMP, SYSTIMESTAMP, TO_CHAR(#{deletedate}, 'YYYY-MM-DD'))
 	</insert>
 
 	<select id="selectByid" resultType="com.lottetour.web.domain.BoardVO">
-		select * from KJH_Board where
-		id =#{id}
+		SELECT * FROM KJH_Board 
+		WHERE ID =#{id}
 	</select>
 
 
 	<update id="update" parameterType="BoardVO">
-		update KJH_Board
-		set title =#{title,jdbcType=VARCHAR}, content =#{content,jdbcType=VARCHAR},
-		userId =#{userId,jdbcType=VARCHAR}, deletedate =#{deletedate,jdbcType=VARCHAR}, updatedate = SYSTIMESTAMP
-		where id =#{id}
+		UPDATE KJH_Board
+		SET TITLE =#{title,jdbcType=VARCHAR}, CONTENT =#{content,jdbcType=VARCHAR},
+		USERID =#{userId,jdbcType=VARCHAR}, DELETEDATE = TO_CHAR(#{deletedate}, 'YYYY-MM-DD'), UPDATEDATE = SYSTIMESTAMP
+		WHERE id =#{id}
 	</update>
 	
 	<update id="changeIsDeleted" parameterType="BoardVO">
-		update KJH_Board
-		set is_deleted = 1, updatedate = SYSTIMESTAMP
-		where id =#{id}
+		UPDATE KJH_Board
+		SET IS_DELETED = 1, UPDATEDATE = SYSTIMESTAMP
+		WHERE ID =#{id}
 	</update>
 
 	<delete id="delete">
-		delete from KJH_Board where id = #{id}
+		DELETE FROM KJH_Board 
+		WHERE ID = #{id}
 	</delete>
 
 	<update id="updateviewcount">
-		update KJH_BOARD set viewcount= viewcount+1 where id
-		=#{id}
+		UPDATE KJH_BOARD 
+		SET VIEWCOUNT= VIEWCOUNT+1 
+		WHERE ID =#{id}
 	</update>
 
 	<select id="selectAll" resultType="com.lottetour.web.domain.BoardVO">
     	<![CDATA[
         	SELECT * FROM KJH_Board
-        	ORDER BY id ASC
+        	ORDER BY ID ASC
     	]]>
 	</select>
 
@@ -53,13 +56,13 @@
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
 			<choose>
 				<when test="type == 'T'.toString()">
-					title like '%'||#{keyword}||'%'
+					TITLE LIKE '%'||#{keyword}||'%'
 				</when>
 				<when test="type == 'C'.toString()">
-					content like '%'||#{keyword}||'%'
+					CONTENT LIKE '%'||#{keyword}||'%'
 				</when>
 				<when test="type == 'W'.toString()">
-					userId like '%'||#{keyword}||'%'
+					USERID LIKE '%'||#{keyword}||'%'
 				</when>
 			</choose>
 		</trim>
@@ -72,8 +75,8 @@
 		SELECT * FROM(
 			SELECT ROWNUM AS RNUM, A.* FROM (
 				SELECT * FROM KJH_BOARD
-				WHERE is_deleted = 0
-				ORDER BY regdate DESC 
+				WHERE IS_DELETED = 0
+				ORDER BY REGDATE DESC 
 			) A WHERE
 		]]>
 		<include refid="criteria"></include>
@@ -87,18 +90,18 @@
 
 	<select id="getTotalCount" resultType="int">
     	<![CDATA[
-    		select count(*) from KJH_BOARD where
+    		SELECT COUNT(*) FROM KJH_BOARD WHERE
     	]]>
 		<include refid="criteria"></include>
     	<![CDATA[
-    		 id > 0 and is_deleted=0
+    		 ID > 0 AND IS_DELETED=0
 		]]>
 	</select>
 	
 	<update id="deleteListBySchedule">
-		update KJH_Board
-		set is_deleted = 1, updatedate = SYSTIMESTAMP
-		where TO_CHAR(deletedate, 'YYYY-MM-DD') = TO_DATE(#{dateString})
+		UPDATE KJH_Board
+		SET IS_DELETED = 1, UPDATEDATE = SYSTIMESTAMP
+		WHERE TO_CHAR(deletedate, 'YYYY-MM-DD') = TO_DATE(#{dateString})
 	</update>
 
 

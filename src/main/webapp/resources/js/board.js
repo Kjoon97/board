@@ -15,13 +15,10 @@ let index ={
          $("#update-btn").eq(0).on("click",()=>{   //'글 수정' 버튼 클릭하면 해당 함수 호출 됨.
         	 this.update();
          });
-         $("#pw-text1").hide();
-         $("#pw-text2").hide();
-         $("#pw-text3").hide();
-         $("#pw-text4").hide();
-         $("#userId-text1").hide();
+         $("#pw-text1").hide(); $("#pw-text2").hide(); $("#pw-text3").hide(); $("#pw-text4").hide();
+         $("#userId-text1").hide(); $("#userId-text2").hide();
          $("#content-text1").hide();
-         $("#title-text1").hide();
+         $("#title-text1").hide(); $("#title-text2").hide(); 
          $("#deletedate-text1").hide();
          $("#passwd").on('input',()=>{
         	this.passwdValidation(); 
@@ -35,52 +32,65 @@ let index ={
                content: $("#content").val(),
                userId: $("#userId").val(),
                passwd: $("#passwd").val(),
-               inputdeletedate : $("#deletedate").val(),
-               deletedate: $("#deletedate").val() + 'T02:00:00'
+               deletedate: $("#deletedate").val() 
          };
-        
          
-         if(!data.title || data.title.trim() === ""){
-        	 $('#title-text1').show();
-        	 return false;
-         }
-         if(!data.content || data.content.trim() === ""){
-        	 $('#content-text1').show();
-        	 return false;
-         }
-         if(!data.userId || data.userId.trim() === ""){
-        	 $('#userId-text1').show();
-        	 return false;
-         }
-         if(!data.inputdeletedate || data.inputdeletedate.trim() === ""){
-        	 $('#deletedate-text1').show();
-        	 return false;
-         } 
-         if(!data.passwd || data.passwd.trim() === ""){
-        	 $('#pw-text1').show();
-        	 return false;
-         } 
          pw = data.passwd;
     	 var num = pw.search(/[0-9]/g);
     	 var eng = pw.search(/[a-z]/ig);
     	 var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-    	 
-    	 if(data.passwd.length < 6 || data.passwd.length > 12){
+        
+         
+         if(!data.title || data.title.trim() === ""){
+        	 $('#title-text1').show();
+        	 $('#title-text2').hide();
+        	 return false;
+         } else if(data.title.length>100){
+        	 $('#title-text1').hide();
+        	 $('#title-text2').show();
+        	 return false;
+         } else if(!data.content || data.content.trim() === ""){
+        	 $('#content-text1').show();
+        	
+        	 return false;
+         } else if(!data.userId || data.userId.trim() === ""){
+        	 $('#userId-text1').show();
+        	 $('#userId-text2').hide();
+        	 return false;
+         } else if(data.userId.length>12){
+        	 $('#userId-text2').show();
+        	 $('#userId-text1').hide();
+        	 
+        	 return false;
+         } else if(!data.deletedate || data.deletedate.trim() === ""){
+        	 $('#deletedate-text1').show();
+        	 
+        	 return false;
+        	 
+         } else if(!data.passwd || data.passwd.trim() === ""){
+        	 $('#pw-text1').show();
+        	 
+        	 return false;
+        	 
+         } else if(data.passwd.length < 6 || data.passwd.length > 12){
     		 $('#pw-text2').show();
     		 $('#pw-text1').hide();
     		 $('#pw-text3').hide();
     		 $('#pw-text4').hide();
+    		 
     		 return false;
     		 
-    	 }else if(data.passwd.search(/\s/) != -1){
+    	 } else if(data.passwd.search(/\s/) != -1){
     		 $('#pw-text3').show();
+    		 
     		 return false;
     		
-    	 }else if(num < 0 || eng < 0 || spe < 0 ){
+    	 } else if(num < 0 || eng < 0 || spe < 0 ){
     		 $('#pw-text4').show();
     		 $('#pw-text1').hide();
     		 $('#pw-text2').hide();
     		 $('#pw-text3').hide();
+    		 
     		 return false;
     	 }
          
@@ -148,11 +158,15 @@ let index ={
                content: $("#content").val(),
                userId:$("#userId").val(),
                passwd: $("#passwd").val(),
-               inputdeletedate : $("#deletedate").val(),
-               deletedate: $("#deletedate").val() + 'T02:00:00'
+               deletedate : $("#deletedate").val()
          };
          if(!data.title || data.title.trim() === ""){
         	 $('#title-text1').show();
+        	 $('#title-text2').hide();
+        	 return false;
+         }else if(data.title.length>100){
+        	 $('#title-text1').hide();
+        	 $('#title-text2').show();
         	 return false;
          }
          else if(!data.content || data.content.trim() === ""){
@@ -161,9 +175,15 @@ let index ={
          }
          else if(!data.userId || data.userId.trim() === ""){
         	 $('#userId-text1').show();
+        	 $('#userId-text2').hide();
+        	 return false;
+         } else if(data.userId.length>12){
+        	 $('#userId-text2').show();
+        	 $('#userId-text1').hide();
+        	 
         	 return false;
          }
-         else if(!data.inputdeletedate || data.inputdeletedate.trim() === ""){
+         else if(!data.deletedate || data.deletedate.trim() === ""){
         	 $('#deletedate-text1').show();
         	 return false;
          } 

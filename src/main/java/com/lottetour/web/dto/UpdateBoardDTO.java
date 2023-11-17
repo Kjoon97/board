@@ -23,12 +23,13 @@ import lombok.NoArgsConstructor;
 *   수정일         수정자           수정내용
 *  ------------    ---------    ---------------------------
 *   2023. 11. 07.    강준혁          최초 생성
+*   2023.11.13        강준혁         삭제일 변수 추가
 * </pre>
 */
 
 @NoArgsConstructor
 @Getter
-public class UpdateBoardDto {
+public class UpdateBoardDTO {
 
     private String title;
     private String content;
@@ -38,7 +39,7 @@ public class UpdateBoardDto {
     private Date deletedate;
     
     @Builder
-    public UpdateBoardDto(String title, String content, String userId, int viewCount){
+    public UpdateBoardDTO(String title, String content, String userId, int viewCount){
         this.title = title;
         this.content =content;
         this.userId=userId;
