@@ -72,7 +72,7 @@
 		<div class="right-align">
 			<a href="/" class="btn btn-outline-dark">목록</a>
 			<!--<button id="update-btn" type="button" class="btn btn-outline-dark">수정</button>-->
-			<a href="/board/modify/${board.id}" class="btn btn-outline-dark">수정</a>
+			<a href="/board/${board.id}" class="btn btn-outline-dark">수정</a>
 			<button id="delete-btn" type="button" class="btn btn-outline-dark">삭제</button>
 		</div>
 	</div>

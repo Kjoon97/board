@@ -101,5 +101,26 @@
 		SET IS_DELETED = 1, UPDATEDATE = SYSDATE
 		WHERE TO_CHAR(deleteDate, 'YYYY-MM-DD') = TO_DATE(#{dateString})
 	</update>
+	
+	<resultMap id="BoardResultMap" type="com.lottetour.web.domain.BoardVO">
+        <result property="id" column="ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="regDate" column="REGDATE"/>
+        <result property="updateDate" column="UPDATEDATE"/>
+        <result property="deleteDate" column="DELETEDATE"/>
+        <result property="userId" column="USERID"/>
+        <result property="viewCount" column="VIEWCOUNT"/>
+        <result property="isDeleted" column="IS_DELETED"/>
+        <result property="passwd" column="PASSWD"/>
+        <result property="salt" column="SALT"/>
+    </resultMap>
+	
+	<!-- 패키지 프로시저 호출 매핑 -->
+    <select id="getBoardByProc" statementType="CALLABLE">
+    	{ call BOARD_PACKAGE.GET_BOARD(
+    			#{p_id, mode=IN, jdbcType=INTEGER}, 
+    			#{p_result, mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=BoardResultMap}) }
+	</select>
 
 </mapper>  

@@ -7,21 +7,28 @@
 package com.lottetour.web.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lottetour.web.domain.BoardVO;
 import com.lottetour.web.domain.Criteria;
+import com.lottetour.web.dto.BoardDTO;
 import com.lottetour.web.dto.PageDTO;
 import com.lottetour.web.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import oracle.sql.DATE;
 
 /**
 * @package com.lottetour.web.Controller
@@ -63,7 +70,7 @@ public class BoardController {
 	}
 	
 	//게시물 등록
-	@GetMapping(value="/board/register")
+	@GetMapping(value="/board")
 	public String registerBoard() throws Exception {
 		return "board/register";
 	}
@@ -80,7 +87,7 @@ public class BoardController {
 	}
 	
 	//게시물 수정페이지
-	@GetMapping(value="/board/modify/{id}")
+	@GetMapping(value="/board/{id}")
 	public String modifyBoard(@PathVariable int id, Model model) throws Exception {
 		
 		BoardVO board = bs.readBoardDetail(id);
@@ -92,6 +99,22 @@ public class BoardController {
 		
 		return "board/modify";
 	}
-
+	
+	//게시글 조회 (프로시저 활용 버전)
+	@GetMapping(value="/board/detail/proc/{id}")
+	public String detailByPrc(@PathVariable int id, Model model, RedirectAttributes redirectAttributes) {
+		ArrayList<BoardVO> boardlist = bs.getBoardByProc(id);
+		
+		//예외처리
+		if (boardlist.isEmpty()) {
+	        redirectAttributes.addFlashAttribute("errorMessage", id + "번 게시물이 존재하지 않습니다.");
+			return "redirect:/error/page";
+		}
+		
+		BoardVO board = boardlist.get(0);
+		model.addAttribute("board", board);
+		
+		return "board/proc";
+	}
 
 }

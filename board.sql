@@ -21,35 +21,35 @@ COMMENT ON COLUMN KJH_BOARD.USERID IS '등록자 계정';
 COMMENT ON COLUMN KJH_BOARD.VIEWCOUNT IS '조회 수';
 COMMENT ON COLUMN KJH_BOARD.REGDATE IS '등록 날짜';
 COMMENT ON COLUMN KJH_BOARD.UPDATEDATE IS '수정 날짜';
-COMMENT ON COLUMN KJH_BOARD.DELETE_DATE IS '삭제 예정 날짜';
+COMMENT ON COLUMN KJH_BOARD.DELETEDATE IS '삭제 예정 날짜';
 COMMENT ON COLUMN KJH_BOARD.IS_DELETED IS '삭제 여부';
 
+SELECT *
+  FROM ALL_COL_COMMENTS
+ WHERE TABLE_NAME = 'KJH_BOARD';
+ 
+ 
+------------------------시퀀스 --------------------------
+DROP SEQUENCE SEQ_BOARD;
+
+CREATE SEQUENCE SEQ_BOARD
+START WITH 1
+INCREMENT BY 1
+NOMAXVALUE;
+
+SELECT * FROM ALL_SEQUENCES 
+WHERE SEQUENCE_NAME = 'SEQ_BOARD';
+
+---------------------------------------------------------------
 
 DROP TABLE KJH_BOARD;
 
 DESC KJH_BOARD;
 
-SELECT *
-  FROM ALL_COL_COMMENTS
- WHERE TABLE_NAME = 'KJH_BOARD';
-
-
-CREATE SEQUENCE board_seq
-START WITH 1
-INCREMENT BY 1HMS_NEWS KJH_BOARD HMS_NEWS 
-NOMAXVALUE;
-
-
 
 UPDATE KJH_BOARD 
 SET VIEWCOUNT = VIEWCOUNT + 1 WHERE ID = 35;
 
-
-SELECT * FROM ALL_SEQUENCES 
-WHERE SEQUENCE_NAME = 'SEQ_BOARD';
-
-
-DROP SEQUENCE SEQ_BOARD;
 
 SELECT * FROM ALL_TRIGGERS 
 WHERE TRIGGER_NAME = 'BOARD_TRIGGER';
@@ -69,8 +69,6 @@ DELETE FROM KJH_BOARD
 WHERE TO_CHAR(UPDATEDATE, 'YYYY-MM-DD') = '2023-11-14';
 
 
-
-TRUNCATE TABLE KJH_BOARD;
 
 
 
@@ -97,4 +95,94 @@ ORDER BY REGDATE DESC;
 UPDATE KJH_BOARD 
 SET IS_DELETED = 1, UPDATEDATE = SYSDATE WHERE TO_CHAR(DELETEDATE, 'YYYY-MM-DD') = '2023-11-16';
 
+
+
+------------------------------------패키지-------------------------------------------
+
+DROP PACKAGE BOARD_PACKAGE;
+
+----------------패키지 조회-------------------------------------
+SELECT * FROM all_objects 
+WHERE object_type = 'PACKAGE' AND object_name = 'BOARD_PACKAGE';
+
+
+---------------게시물 패키지 선언---------------------------------
+CREATE OR REPLACE PACKAGE BOARD_PACKAGE AS
+  TYPE BoardCursor IS REF CURSOR;
+  --게시물 조회 프로시저--
+  PROCEDURE GET_BOARD(p_id IN NUMBER,p_result OUT BoardCursor);
+  --게시물 삭제 프로시저--
+  PROCEDURE DELETE_BOARD(input_date IN DATE);
+END BOARD_PACKAGE;
+
+
+--------------게시물 패키지 구현-----------------------------------
+CREATE OR REPLACE PACKAGE BODY BOARD_PACKAGE AS
+    
+  -----게시물 조회 프로시저------
+  PROCEDURE GET_BOARD(p_id IN NUMBER,p_result OUT BoardCursor) IS 
+  BEGIN
+    OPEN p_result FOR
+     SELECT *
+     FROM KJH_BOARD
+     WHERE ID = p_id AND IS_DELETED = 0;
+  END GET_BOARD;
+  
+  ------게시물 삭제 프로시저-----
+  PROCEDURE DELETE_BOARD(input_date IN DATE) IS
+  BEGIN
+    UPDATE KJH_BOARD
+    SET IS_DELETED = 1, UPDATEDATE = SYSDATE
+    WHERE TRUNC(DELETEDATE) = TRUNC(input_date);
+  END DELETE_BOARD;
+END BOARD_PACKAGE;
+
+
+
+---------------- 패키지 호출(게시물 조회)------------------------------
+DECLARE
+  v_board_cursor BOARD_PACKAGE.BoardCursor;
+  v_board KJH_BOARD%ROWTYPE;
+BEGIN
+  BOARD_PACKAGE.GET_BOARD(16, v_board_cursor); 
+  FETCH v_board_cursor INTO v_board;
+  DBMS_OUTPUT.PUT_LINE('게시글 ID: ' || v_board.ID || ', 제목: ' || v_board.TITLE || ', 내용: ' || v_board.CONTENT || ', 등록자: ' || v_board.USERID);
+END;
+
+
+-------------- 패키지 호출(게시물 삭제)----------------------------------
+DECLARE
+  v_delete_date DATE := TRUNC(SYSDATE); 
+BEGIN
+  BOARD_PACKAGE.DELETE_BOARD(v_delete_date); 
+  COMMIT; 
+END;
+
+
+-- DBMS_OUTPUT.PUT_LINE을 출력하기 위해 사용
+SET SERVEROUTPUT ON;
+
+
 SELECT * FROM KJH_BOARD;
+
+TRUNCATE TABLE KJH_BOARD;
+
+GRANT CREATE ANY JOB TO LTFREE;
+
+
+---스케줄러 작업 생성(매일 오전 11시 실행)
+BEGIN
+  DBMS_SCHEDULER.create_job (
+    job_name        => 'DELETE_BOARD_JOB',
+    job_type        => 'PLSQL_BLOCK',
+    job_action      => 'BEGIN BOARD_PACKAGE.DELETE_BOARD; END;',
+    start_date      =>  SYSDATE,
+    repeat_interval => 'FREQ=DAILY; BYHOUR=11; BYMINUTE=0; BYSECOND=0',
+    enabled         =>  TRUE
+  );
+END;
+
+
+SELECT job_name, job_type, job_action, enabled
+FROM user_scheduler_jobs
+WHERE job_name = 'DELETE_BOARD_JOB';

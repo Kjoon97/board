@@ -91,5 +91,14 @@ public class BoardDAO {
 	public void DeleteListByDate(String dateString ){
 		sqlSession.update(namespace + ".deleteListBySchedule", dateString);
 	}
-
+	
+	
+    // 프로시저 호출 메서드
+    public Map<String, Object> getBoardByProc(int p_id) {
+    	Map<String, Object> param = new HashMap<String, Object>();
+    	param.put("p_id", p_id);
+    	String outputValue = (String)sqlSession.selectOne(namespace+".getBoardByProc", param);
+    	System.out.println("Output Value from Procedure: " + outputValue);
+        return param;
+    }
 }

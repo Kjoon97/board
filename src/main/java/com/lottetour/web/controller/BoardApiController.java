@@ -6,11 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,10 +40,10 @@ import lombok.extern.slf4j.Slf4j;
 * << 개정이력(Modification Information) >> *
 *   수정일         수정자           수정내용
 *  ------------    ---------    ---------------------------
-*   2023. 11. 03.    강준혁          최초 생성
-*   2023. 11. 0.6         강준혁 	    글 작성 -save(), 글 삭제 -deleteById() 생성.
-*   2023. 11. 0.7         강준혁 	    글 수정 -update() 생성.
-*   
+*   2023. 11. 03    강준혁          최초 생성
+*   2023. 11. 06         강준혁 	   글 작성 -save(), 글 삭제 -deleteById() 생성.
+*   2023. 11. 07         강준혁 	   글 수정 -update() 생성.
+*   2023. 11. 22    강준혁          에러 페이지(프로시저 게시글 조회)
 * </pre>
 */
 
@@ -78,6 +80,12 @@ public class BoardApiController {
     public ResponseDTO<?> update(@PathVariable int id, @RequestBody UpdateBoardDTO updateBoardDto) throws Exception{
     	ResponseDTO<?> response = boardService.update(id, updateBoardDto);
         return response;
+    }
+    
+    //에러 페이지 호출
+    @GetMapping("/error/page")
+    public String errorPage(@ModelAttribute("errorMessage") String errorMessage) {
+    	return "<h1>" + errorMessage + "</h1>";
     }
 
 }

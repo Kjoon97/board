@@ -1,6 +1,8 @@
 package com.lottetour.web.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -113,6 +115,14 @@ public class BoardService {
 	//전체 수 읽어오기
 	public int getTotalCount(Criteria cri) {
 		return boardDAO.getTotalCount(cri);
+	}
+	
+	//프로시저로 게시글 조회.
+	public ArrayList<BoardVO> getBoardByProc(int id){
+		Map<String, Object> param  = boardDAO.getBoardByProc(id);
+		@SuppressWarnings("unchecked")
+		ArrayList<BoardVO> boardlist = (ArrayList<BoardVO>) param.get("p_result");
+		return boardlist;
 	}
 	
 }
