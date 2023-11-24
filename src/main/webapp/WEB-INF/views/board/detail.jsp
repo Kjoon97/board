@@ -15,7 +15,7 @@
 			<h4>비밀번호 입력하세요</h4>
 			<form>
 				<div class="my-3">
-					<input type="text" class="form-control" id="passwd" placeholder="게시글 비밀번호를 입력하세요">
+					<input type="password" class="form-control" id="passwd" placeholder="게시글 비밀번호를 입력하세요">
                 	<div id="pw-text1">비밀번호를 입력해주세요.</div>
                 	<div id="pw-text2">8자리 ~ 12자리 이내로 입력해주세요.</div>
 					<div id="pw-text3">비밀번호는 공백 없이 입력해주세요.</div>

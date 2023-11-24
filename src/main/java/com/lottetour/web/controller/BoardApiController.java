@@ -38,12 +38,12 @@ import lombok.extern.slf4j.Slf4j;
 *
 * <pre>
 * << 개정이력(Modification Information) >> *
-*   수정일         수정자           수정내용
+*      수정일                   수정자                                수정내용
 *  ------------    ---------    ---------------------------
-*   2023. 11. 03    강준혁          최초 생성
-*   2023. 11. 06         강준혁 	   글 작성 -save(), 글 삭제 -deleteById() 생성.
-*   2023. 11. 07         강준혁 	   글 수정 -update() 생성.
-*   2023. 11. 22    강준혁          에러 페이지(프로시저 게시글 조회)
+*   2023. 11. 03     강준혁               최초 생성
+*   2023. 11. 06          강준혁 	          글 작성 -save(), 글 삭제 -deleteById() 생성.
+*   2023. 11. 07          강준혁 	          글 수정 -update() 생성.
+*   2023. 11. 22     강준혁               에러 페이지 생성(프로시저 게시글 조회)
 * </pre>
 */
 
@@ -68,7 +68,7 @@ public class BoardApiController {
   
     	return new ResponseDTO<Integer>(HttpStatus.OK.value(), 1);
     }
-    //글 삭제(삭제 컬럼 업데이트)
+    //글 삭제(삭제 컬럼 0->1 업데이트)
     @PatchMapping("/api/board/{id}")
     public ResponseDTO<?> deleteById(@PathVariable int id, @RequestBody PasswordDTO password) throws Exception{
     	ResponseDTO<?> response = boardService.checkPasswd(id, password);

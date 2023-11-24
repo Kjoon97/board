@@ -26,10 +26,12 @@ import lombok.RequiredArgsConstructor;
 * << 개정이력(Modification Information) >> *
 *   수정일         수정자           수정내용
 *  ------------    ---------    ---------------------------
-*   2023. 11. 03.    강준혁          최초 생성
-*   2023. 11. 0.6         강준혁 	    글 작성:add(), 글 삭제:deleteById(), 글 목록 조회:readList() 생성.
-*   2023. 11. 0.7         강준혁 	    글 수정:updateBoard() 생성. 조회 수 증가:updateViewCount() 생성.
-*   2023. 11. 0.8         강준혁 	    페이징: getListWithPaging(), 총 게시물 수 구하기: getTotalCount() 생성.
+*   2023. 11. 03     강준혁             최초 생성
+*   2023. 11. 06          강준혁 	        글 작성:add(), 글 삭제:deleteById(), 글 목록 조회:readList() 생성.
+*   2023. 11. 07          강준혁 	        글 수정:updateBoard() 생성. 조회 수 증가:updateViewCount() 생성.
+*   2023. 11. 08          강준혁 	        페이징: getListWithPaging(), 총 게시물 수 구하기: getTotalCount() 생성.
+*   2023. 11. 22     강준혁             id로 게시글 조회 메소드 추가 (패키지/프로시저 활용) : getBoardByProc(int p_id)
+*   2023. 11. 23     강준혁             삭제 스케줄러 실행 메소드 추가: executeDeleteSchedule()
 * </pre>
 */
 
@@ -93,12 +95,17 @@ public class BoardDAO {
 	}
 	
 	
-    // 프로시저 호출 메서드
+    //id로 게시글 조회 (패키지/프로시저 활용)
     public Map<String, Object> getBoardByProc(int p_id) {
     	Map<String, Object> param = new HashMap<String, Object>();
     	param.put("p_id", p_id);
     	String outputValue = (String)sqlSession.selectOne(namespace+".getBoardByProc", param);
     	System.out.println("Output Value from Procedure: " + outputValue);
         return param;
+    }
+    
+    //삭제 스케줄러 실행
+    public void executeDeleteSchedule() {
+    	sqlSession.update(namespace + ".executeDeleteBoardJob");
     }
 }

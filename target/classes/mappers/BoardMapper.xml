@@ -5,6 +5,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lottetour.web.mapper.BoardMapper">
+	
+	<!-- 게시물 등록 -->
 	<insert id="insert">
     	INSERT INTO KJH_Board 
     	(ID, TITLE, CONTENT, PASSWD, SALT, USERID, UPDATEDATE, REGDATE, DELETEDATE)
@@ -12,36 +14,41 @@
     	(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{passwd}, #{salt}, #{userId}, SYSDATE, SYSDATE, TO_CHAR(#{deleteDate}, 'YYYY-MM-DD'))
 	</insert>
 
+	<!-- 게시물 id로 조회 -->
 	<select id="selectByid" resultType="com.lottetour.web.domain.BoardVO">
 		SELECT * FROM KJH_Board 
 		WHERE ID =#{id}
 	</select>
 
-
-	<update id="update" parameterType="BoardVO">
+	<!-- 게시물 수정 -->
+	<update id="update" parameterType="com.lottetour.web.domain.BoardVO">
 		UPDATE KJH_Board
 		SET TITLE =#{title,jdbcType=VARCHAR}, CONTENT =#{content,jdbcType=VARCHAR},
 		USERID =#{userId,jdbcType=VARCHAR}, DELETEDATE = TO_CHAR(#{deleteDate}, 'YYYY-MM-DD'), UPDATEDATE = SYSDATE
 		WHERE id =#{id}
 	</update>
 	
-	<update id="changeIsDeleted" parameterType="BoardVO">
+	<!-- 게시물 삭제(is_deleted 컬럼 업데이트 방식) -->
+	<update id="changeIsDeleted" parameterType="com.lottetour.web.domain.BoardVO">
 		UPDATE KJH_Board
 		SET IS_DELETED = 1, UPDATEDATE = SYSDATE
 		WHERE ID =#{id}
 	</update>
 
+	<!-- 게시물 삭제(완전 삭제) -->
 	<delete id="delete">
 		DELETE FROM KJH_Board 
 		WHERE ID = #{id}
 	</delete>
 
+	<!-- 게시물 조회수 증가 -->
 	<update id="updateviewcount">
 		UPDATE KJH_BOARD 
 		SET VIEWCOUNT= VIEWCOUNT+1 
 		WHERE ID =#{id}
 	</update>
 
+	<!-- 게시물 전체 조회-->
 	<select id="selectAll" resultType="com.lottetour.web.domain.BoardVO">
     	<![CDATA[
         	SELECT * FROM KJH_Board
@@ -49,7 +56,7 @@
     	]]>
 	</select>
 
-	<!-- <sql>코드는 <include>로 사용할 수 있음 -->
+	<!-- 게시물 리스트 검색 조건. <sql>코드는 <include>로 사용할 수 있음 -->
 	<sql id="criteria">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
 			<choose>
@@ -67,7 +74,7 @@
 	</sql>
 
 
-
+	<!-- 게시물 리스트 조회(페이징), 검색 -->
 	<select id="getListWithPaging" resultType="com.lottetour.web.domain.BoardVO">
 	<![CDATA[
 		SELECT * FROM(
@@ -85,7 +92,7 @@
 	</select>
 
 
-
+	<!-- 게시물 총 개수 -->
 	<select id="getTotalCount" resultType="int">
     	<![CDATA[
     		SELECT COUNT(*) FROM KJH_BOARD WHERE
@@ -96,12 +103,14 @@
 		]]>
 	</select>
 	
+	<!-- 스케줄을 통한 게시물 삭제 -->
 	<update id="deleteListBySchedule">
 		UPDATE KJH_Board
 		SET IS_DELETED = 1, UPDATEDATE = SYSDATE
 		WHERE TO_CHAR(deleteDate, 'YYYY-MM-DD') = TO_DATE(#{dateString})
 	</update>
 	
+	<!-- 게시물 조회 (프로시저 활용) 반환 값 맵핑  -->
 	<resultMap id="BoardResultMap" type="com.lottetour.web.domain.BoardVO">
         <result property="id" column="ID"/>
         <result property="title" column="TITLE"/>
@@ -116,11 +125,16 @@
         <result property="salt" column="SALT"/>
     </resultMap>
 	
-	<!-- 패키지 프로시저 호출 매핑 -->
+	<!-- 패키지 프로시저 호출 -->
     <select id="getBoardByProc" statementType="CALLABLE">
-    	{ call BOARD_PACKAGE.GET_BOARD(
+    	{ CALL BOARD_PACKAGE.GET_BOARD(
     			#{p_id, mode=IN, jdbcType=INTEGER}, 
     			#{p_result, mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=BoardResultMap}) }
 	</select>
+	
+	<!-- 스케줄러 작업 실행을 위한 SQL 쿼리 -->
+   <update id="executeDeleteBoardJob" statementType="CALLABLE">
+ 	   { CALL BOARD_PACKAGE.DELETE_BOARD }
+  	</update>
 
 </mapper>  

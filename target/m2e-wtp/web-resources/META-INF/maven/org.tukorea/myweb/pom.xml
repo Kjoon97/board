@@ -7,13 +7,13 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
-		<java-version>1.11</java-version>
+		<java-version>1.8</java-version>
 		<org.springframework-version>5.2.19.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.9.8</org.aspectj-version>
 		 <logback.version>1.2.10</logback.version>
 		<org.slf4j-version>1.7.35</org.slf4j-version>
-		<maven.compiler.source>1.11</maven.compiler.source>
-		<maven.compiler.target>1.11</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 	
 	<repositories>

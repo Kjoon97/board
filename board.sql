@@ -99,27 +99,25 @@ SET IS_DELETED = 1, UPDATEDATE = SYSDATE WHERE TO_CHAR(DELETEDATE, 'YYYY-MM-DD')
 
 ------------------------------------패키지-------------------------------------------
 
-DROP PACKAGE BOARD_PACKAGE;
 
-----------------패키지 조회-------------------------------------
-SELECT * FROM all_objects 
-WHERE object_type = 'PACKAGE' AND object_name = 'BOARD_PACKAGE';
-
-
----------------게시물 패키지 선언---------------------------------
+---게시물 패키지 선언---
 CREATE OR REPLACE PACKAGE BOARD_PACKAGE AS
   TYPE BoardCursor IS REF CURSOR;
+  
   --게시물 조회 프로시저--
   PROCEDURE GET_BOARD(p_id IN NUMBER,p_result OUT BoardCursor);
   --게시물 삭제 프로시저--
   PROCEDURE DELETE_BOARD(input_date IN DATE);
+  
 END BOARD_PACKAGE;
 
 
---------------게시물 패키지 구현-----------------------------------
+
+
+---게시물 패키지 구현---
 CREATE OR REPLACE PACKAGE BODY BOARD_PACKAGE AS
-    
-  -----게시물 조회 프로시저------
+
+  ---게시물 조회 프로시저---
   PROCEDURE GET_BOARD(p_id IN NUMBER,p_result OUT BoardCursor) IS 
   BEGIN
     OPEN p_result FOR
@@ -128,29 +126,32 @@ CREATE OR REPLACE PACKAGE BODY BOARD_PACKAGE AS
      WHERE ID = p_id AND IS_DELETED = 0;
   END GET_BOARD;
   
-  ------게시물 삭제 프로시저-----
+  ---게시물 삭제 프로시저---
   PROCEDURE DELETE_BOARD(input_date IN DATE) IS
   BEGIN
     UPDATE KJH_BOARD
     SET IS_DELETED = 1, UPDATEDATE = SYSDATE
     WHERE TRUNC(DELETEDATE) = TRUNC(input_date);
   END DELETE_BOARD;
+  
 END BOARD_PACKAGE;
 
 
 
----------------- 패키지 호출(게시물 조회)------------------------------
+
+--- 패키지 호출(게시물 조회)---
 DECLARE
   v_board_cursor BOARD_PACKAGE.BoardCursor;
   v_board KJH_BOARD%ROWTYPE;
 BEGIN
-  BOARD_PACKAGE.GET_BOARD(16, v_board_cursor); 
+  BOARD_PACKAGE.GET_BOARD(20, v_board_cursor); 
   FETCH v_board_cursor INTO v_board;
-  DBMS_OUTPUT.PUT_LINE('게시글 ID: ' || v_board.ID || ', 제목: ' || v_board.TITLE || ', 내용: ' || v_board.CONTENT || ', 등록자: ' || v_board.USERID);
+  DBMS_OUTPUT.PUT_LINE('게시글 ID: ' || v_board.ID || ', 제목: ' || v_board.TITLE || ', 등록자: ' || v_board.USERID);
 END;
 
 
--------------- 패키지 호출(게시물 삭제)----------------------------------
+
+--- 패키지 호출(게시물 삭제)---
 DECLARE
   v_delete_date DATE := TRUNC(SYSDATE); 
 BEGIN
@@ -159,30 +160,52 @@ BEGIN
 END;
 
 
--- DBMS_OUTPUT.PUT_LINE을 출력하기 위해 사용
+
+
+-- DBMS_OUTPUT.PUT_LINE을 출력하기 위해 사용---
 SET SERVEROUTPUT ON;
+
+
+
+
+---패키지 삭제---
+DROP PACKAGE BOARD_PACKAGE;
+
+
+---패키지 조회---
+SELECT * FROM ALL_OBJECTS 
+WHERE OBJECT_TYPE = 'PACKAGE' AND OBJECT_NAME = 'BOARD_PACKAGE';
+
+
+
+
+---스케줄 생성 권한 부여---
+GRANT CREATE ANY JOB TO LTFREE;
+
+
+
+---스케줄러 작업 생성(매일 오전 11시 실행)---
+BEGIN
+  DBMS_SCHEDULER.CREATE_JOB (
+    JOB_NAME        => 'DELETE_BOARD_JOB',
+    JOB_TYPE        => 'PLSQL_BLOCK',
+    JOB_ACTION      => 'BEGIN BOARD_PACKAGE.DELETE_BOARD; END;',
+    START_DATE      => SYSDATE,
+    REPEAT_INTERVAL => 'FREQ=DAILY; BYHOUR=11; BYMINUTE=0; BYSECOND=0',
+    ENABLED         => TRUE
+  );
+END;
+
+
+
+
+---삭제 스케줄 조회---
+SELECT JOB_NAME, JOB_TYPE, JOB_ACTION, ENABLED
+FROM USER_SCHEDULER_JOBS
+WHERE JOB_NAME = 'DELETE_BOARD_JOB';
+
 
 
 SELECT * FROM KJH_BOARD;
 
 TRUNCATE TABLE KJH_BOARD;
-
-GRANT CREATE ANY JOB TO LTFREE;
-
-
----스케줄러 작업 생성(매일 오전 11시 실행)
-BEGIN
-  DBMS_SCHEDULER.create_job (
-    job_name        => 'DELETE_BOARD_JOB',
-    job_type        => 'PLSQL_BLOCK',
-    job_action      => 'BEGIN BOARD_PACKAGE.DELETE_BOARD; END;',
-    start_date      =>  SYSDATE,
-    repeat_interval => 'FREQ=DAILY; BYHOUR=11; BYMINUTE=0; BYSECOND=0',
-    enabled         =>  TRUE
-  );
-END;
-
-
-SELECT job_name, job_type, job_action, enabled
-FROM user_scheduler_jobs
-WHERE job_name = 'DELETE_BOARD_JOB';

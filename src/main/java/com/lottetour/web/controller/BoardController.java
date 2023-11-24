@@ -1,9 +1,3 @@
-
-
-
-
-
-
 package com.lottetour.web.controller;
 
 import java.text.SimpleDateFormat;
@@ -39,14 +33,15 @@ import oracle.sql.DATE;
 *
 * <pre>
 * << 개정이력(Modification Information) >> *
-*   수정일         수정자           수정내용
+*      수정일                    수정자                                수정내용
 *  ------------    ---------    ---------------------------
-*   2023. 11.3         강준혁          최초 생성
-*   2023. 11. 6        강준혁 	    글 작성 -save(), 글 삭제 -deleteById() 생성.
-*   2023. 11. 7        강준혁 	    상세보기 조회: detailBoard(), 수정 페이지 조회: modifyBoard() 생성.
-*   2023. 11. 7        강준혁 	    상세보기: detailBoard()에서 조회 수 증가 updateViewCnt() 호출.
-*   2023. 11. 8        강준혁 	    페이징, 검색을 위해 home()에서 Criteria 매개변수 추가.
-*   2023. 11. 15      강준혁 		print -> log으로 변경.
+*   2023. 11. 03     강준혁               최초 생성
+*   2023. 11. 06          강준혁 	          글 작성 -save(), 글 삭제 -deleteById() 생성.
+*   2023. 11. 07          강준혁 	          상세보기 조회: detailBoard(), 수정 페이지 조회: modifyBoard() 생성.
+*   2023. 11. 07          강준혁 	          상세보기: detailBoard()에서 조회 수 증가 updateViewCnt() 호출.
+*   2023. 11. 08          강준혁 	          페이징, 검색을 위해 home()에서 Criteria 매개변수 추가.
+*   2023. 11. 15          강준혁 	          불필요한 주석 삭제
+*   2023. 11. 22     강준혁               게시글 조회 메소드(프로시저 활용 버전) 생성: detailByPrc()
 * </pre>
 */
 
@@ -82,7 +77,7 @@ public class BoardController {
 		BoardVO board = bs.readBoardDetail(id);
 		bs.updateViewCnt(id);
 		model.addAttribute("board",board);
-		
+		bs.readBoardDetail(id);
 		return "board/detail";
 	}
 	

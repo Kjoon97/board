@@ -28,13 +28,14 @@ import lombok.extern.slf4j.Slf4j;
 *
 * <pre>
 * << 개정이력(Modification Information) >> *
-*   수정일         수정자           수정내용
+*       수정일                 수정자                수정내용
 *  ------------    ---------    ---------------------------
-*   2023. 11. 03.    강준혁          최초 생성
-*   2023. 11. 0.6         강준혁 	    글 작성 -addBoard(), 글 삭제 -deleteBoard(), 글 목록 조회: readBoardList() 생성.
-*   2023. 11. 0.7         강준혁 	    글 수정:update() 생성. 조회 수 증가:updateViewCnt() 생성.
-*   2023. 11. 0.8         강준혁 	    페이징 읽어오기: getList(), 총 게시물 수 구하기: getTotalCount() 생성.
-*   
+*   2023. 11. 03     강준혁               최초 생성
+*   2023. 11. 06          강준혁 	          글 작성 -addBoard(), 글 삭제 -deleteBoard(), 글 목록 조회: readBoardList() 생성.
+*   2023. 11. 07          강준혁 	          글 수정:update() 생성. 조회 수 증가:updateViewCnt() 생성.
+*   2023. 11. 08          강준혁 	          페이징 읽어오기: getList(), 총 게시물 수 구하기: getTotalCount() 생성.
+*   2023. 11. 22     강준혁               id로 게시글 조회 메소드 추가 (패키지/프로시저 활용) : getBoardByProc(int id)
+*   2023. 11. 23     강준혁               삭제 스케줄러 실행 메소드 추가: executeDeleteSchedule()
 * </pre>
 */
 
@@ -66,7 +67,7 @@ public class BoardService {
 		boardDAO.deleteById(id);
 	}
 	
-	//수정
+	//게시물 수정
 	public ResponseDTO<?> update(int id, UpdateBoardDTO updateBoardDto) throws Exception {
 		
 		BoardVO boardVO = boardDAO.readDetail(id);
@@ -112,17 +113,22 @@ public class BoardService {
 	    return boardDAO.getListWithPaging(cri);
 	}
 	
-	//전체 수 읽어오기
+	//전체 게시글 수 읽어오기
 	public int getTotalCount(Criteria cri) {
 		return boardDAO.getTotalCount(cri);
 	}
 	
-	//프로시저로 게시글 조회.
+	//id로 게시글 조회 (패키지/프로시저 활용)
 	public ArrayList<BoardVO> getBoardByProc(int id){
 		Map<String, Object> param  = boardDAO.getBoardByProc(id);
 		@SuppressWarnings("unchecked")
 		ArrayList<BoardVO> boardlist = (ArrayList<BoardVO>) param.get("p_result");
 		return boardlist;
 	}
+	
+	//삭제 스케줄러 실행
+    public void executeDeleteSchedule() {
+        boardDAO.executeDeleteSchedule();
+    }
 	
 }
