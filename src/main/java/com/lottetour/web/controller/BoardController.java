@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lottetour.web.domain.BoardVO;
 import com.lottetour.web.domain.Criteria;
-import com.lottetour.web.dto.BoardDTO;
 import com.lottetour.web.dto.PageDTO;
 import com.lottetour.web.service.BoardService;
 
