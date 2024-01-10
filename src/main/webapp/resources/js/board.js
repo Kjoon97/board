@@ -34,13 +34,10 @@ let index ={
                passwd: $("#passwd").val(),
                deleteDate: $("#deleteDate").val() 
          };
-         
          pw = data.passwd;
     	 var num = pw.search(/[0-9]/g);
     	 var eng = pw.search(/[a-z]/ig);
     	 var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-        
-         
          if(!data.title || data.title.trim() === ""){
         	 $('#title-text1').show();
         	 $('#title-text2').hide();
@@ -64,14 +61,10 @@ let index ={
         	 return false;
          } else if(!data.deleteDate || data.deleteDate.trim() === ""){
         	 $('#deleteDate-text1').show();
-        	 
         	 return false;
-        	 
          } else if(!data.passwd || data.passwd.trim() === ""){
         	 $('#pw-text1').show();
-        	 
         	 return false;
-        	 
          } else if(data.passwd.length < 6 || data.passwd.length > 12){
     		 $('#pw-text2').show();
     		 $('#pw-text1').hide();

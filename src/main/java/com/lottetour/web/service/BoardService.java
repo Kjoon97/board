@@ -47,9 +47,14 @@ public class BoardService {
 	private final BoardDAO boardDAO;
 	private final Encrypt encrypt;
 	
-	//게시물 추가
-	public void addBoard(BoardVO board) throws Exception {
-		boardDAO.add(board);
+	//게시물 등록
+	public void addBoard(BoardVO boardVO, String pwd) throws Exception {
+		//비밀번호 인코딩
+		String salt = encrypt.getSalt();
+		String encodedPasswd = encrypt.getEncrypt(pwd,salt);
+		boardVO.registerSalt(salt);
+		boardVO.registerPassword(encodedPasswd);
+		boardDAO.add(boardVO);
 	}
 	
 	//게시물 목록 조회
@@ -69,38 +74,39 @@ public class BoardService {
 	
 	//게시물 수정
 	public ResponseDTO<?> update(int id, UpdateBoardDTO updateBoardDto) throws Exception {
-		
 		BoardVO boardVO = boardDAO.readDetail(id);
-		String storedSalt = boardVO.getSalt();
-		String storedPasswd = boardVO.getPasswd();
-		String inputPasswd = updateBoardDto.getPasswd();
-		
-		String inputEncodedPasswd = encrypt.getEncrypt(inputPasswd, storedSalt);
-		
-		if (storedPasswd.equals(inputEncodedPasswd)) {
-			boardVO.updateBoard(updateBoardDto.getTitle(), updateBoardDto.getContent(), updateBoardDto.getUserId(), updateBoardDto.getViewCount(), updateBoardDto.getDeleteDate());
+
+		//저장된 암호화된 비밀번호와 비교
+		if (checkPasswd(id, updateBoardDto.getPasswd())) {
+			boardVO.updateBoard(updateBoardDto.getTitle(), updateBoardDto.getContent(), 
+					updateBoardDto.getUserId(), updateBoardDto.getViewCount(), updateBoardDto.getDeleteDate());
 			boardDAO.updateBoard(boardVO);
 			return new ResponseDTO<Integer>(HttpStatus.OK.value(), 1);
 		} else {
 			return new ResponseDTO<String>(HttpStatus.BAD_REQUEST.value(), "잘못된 비밀번호입니다.");
 		}
-		
 	}
 	
-	//비밀번호 확인.
-	public ResponseDTO<?> checkPasswd(int id, PasswordDTO password) throws Exception {
-		BoardVO boardVO = boardDAO.readDetail(id);
-		String storedSalt = boardVO.getSalt();
-		String storedPasswd = boardVO.getPasswd();
-		
-		String inputEncodedPasswd = encrypt.getEncrypt(password.getPasswd(), storedSalt); 
-		
-		if (storedPasswd.equals(inputEncodedPasswd)) {
+	//게시물 삭제
+	public ResponseDTO<?> deleteById(int id, PasswordDTO password) throws Exception {
+
+		//저장된 암호화된 비밀번호와 비교
+		if (checkPasswd(id, password.getPasswd())) {
 			boardDAO.deleteById(id);
 			return new ResponseDTO<Integer>(HttpStatus.OK.value(), 1);
 		} else {
 			return new ResponseDTO<String>(HttpStatus.BAD_REQUEST.value(), "잘못된 비밀번호입니다.");
 		}
+	}
+
+	//비밀번호 일치 확인
+	public Boolean checkPasswd(int id, String pwd) throws Exception {
+		BoardVO boardVO = boardDAO.readDetail(id);
+		String storedSalt = boardVO.getSalt();        //저장된 salt 불러오기.
+		String storedPasswd = boardVO.getPasswd();   //저장된 암호화 비밀번호 불러오기.
+		String inputEncodedPasswd = encrypt.getEncrypt(pwd, storedSalt);   //입력 폼에 입력한 비밀번호를 암호화.
+
+        return storedPasswd.equals(inputEncodedPasswd);   //저장된 비밀번호와 일치-> true, 불일치 -> false
 	}
 	
 	//조회 수 증가

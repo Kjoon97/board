@@ -34,15 +34,13 @@ public class BoardScheduler {
 	
 	private final BoardDAO boardDAO;
 
-	LocalDate now = LocalDate.now();
+	//오늘 날짜 
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	String dateString = now.format(formatter);
+	String todayDate = LocalDate.now().format(formatter);
 	
 	//삭제 스케줄러.
 	@Scheduled(cron = "0 0 11 * * ?")  //매일 오전 11시
 	public void DeleteBoard() throws Exception {
-		log.info("삭제 스케쥴러 실행 " + dateString);
-		boardDAO.DeleteListByDate(dateString);
+		boardDAO.DeleteListByDate(todayDate);
 	}
-
 }

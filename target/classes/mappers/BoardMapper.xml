@@ -16,7 +16,8 @@
 
 	<!-- 게시물 id로 조회 -->
 	<select id="selectByid" resultType="com.lottetour.web.domain.BoardVO">
-		SELECT * FROM KJH_Board 
+		SELECT *
+		FROM KJH_Board
 		WHERE ID =#{id}
 	</select>
 
@@ -73,13 +74,12 @@
 		</trim>
 	</sql>
 
-
 	<!-- 게시물 리스트 조회(페이징), 검색 -->
 	<select id="getListWithPaging" resultType="com.lottetour.web.domain.BoardVO">
 	<![CDATA[
-		SELECT * FROM(
-			SELECT ROWNUM AS RNUM, A.* FROM (
-				SELECT * FROM KJH_BOARD
+		SELECT id, title, regDate, viewCount FROM(
+			SELECT ROWNUM AS RNUM, A.id, A.title, A.regDate, A.viewCount FROM (
+				SELECT id, title, regDate, viewCount FROM KJH_BOARD
 				WHERE IS_DELETED = 0
 				ORDER BY REGDATE DESC 
 			) A WHERE
@@ -107,7 +107,7 @@
 	<update id="deleteListBySchedule">
 		UPDATE KJH_Board
 		SET IS_DELETED = 1, UPDATEDATE = SYSDATE
-		WHERE TO_CHAR(deleteDate, 'YYYY-MM-DD') = TO_DATE(#{dateString})
+		WHERE TO_CHAR(deleteDate, 'YYYY-MM-DD') = TO_DATE(#{todayDate})
 	</update>
 	
 	<!-- 게시물 조회 (프로시저 활용) 반환 값 맵핑  -->

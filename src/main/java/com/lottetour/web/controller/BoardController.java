@@ -104,7 +104,6 @@ public class BoardController {
 	        redirectAttributes.addFlashAttribute("errorMessage", id + "번 게시물이 존재하지 않습니다.");
 			return "redirect:/error/page";
 		}
-		
 		BoardVO board = boardlist.get(0);
 		model.addAttribute("board", board);
 		

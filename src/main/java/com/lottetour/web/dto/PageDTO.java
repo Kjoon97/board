@@ -26,7 +26,6 @@ import lombok.ToString;
 
 
 //페이지 번호 출력하는 클래스  startPage(시작페이지), endPage(끝 페이지), prev(이전 버튼 활성화 여부), next(다음 버튼 활성화 여부)
-
 @Getter
 @Setter
 @ToString

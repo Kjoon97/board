@@ -53,25 +53,20 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardApiController {
 	
 	private final BoardService boardService;
-	private final Encrypt encrypt;
 	
     //글 작성
     @PostMapping("/api/board")
     public ResponseDTO<Integer> save(@RequestBody SaveBoardDTO saveBoardDto) throws Exception{
     
     	BoardVO boardVO = saveBoardDto.toEntity();
-    	String salt = encrypt.getSalt();
-    	String encodedPasswd = encrypt.getEncrypt(saveBoardDto.getPasswd(),salt);
-    	boardVO.registerSalt(salt);
-    	boardVO.registerPassword(encodedPasswd);
-        boardService.addBoard(boardVO);
+        boardService.addBoard(boardVO, saveBoardDto.getPasswd());
   
     	return new ResponseDTO<Integer>(HttpStatus.OK.value(), 1);
     }
     //글 삭제(삭제 컬럼 0->1 업데이트)
     @PatchMapping("/api/board/{id}")
     public ResponseDTO<?> deleteById(@PathVariable int id, @RequestBody PasswordDTO password) throws Exception{
-    	ResponseDTO<?> response = boardService.checkPasswd(id, password);
+    	ResponseDTO<?> response = boardService.deleteById(id, password);
     	return response;
     }
     

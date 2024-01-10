@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -35,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 * </pre>
 */
 
-
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class BoardDAO {
@@ -90,17 +91,17 @@ public class BoardDAO {
 	}
 	
 	//해당 날짜에 게시물 삭제 컬럼 update
-	public void DeleteListByDate(String dateString ){
-		sqlSession.update(namespace + ".deleteListBySchedule", dateString);
+	public void DeleteListByDate(String todayDate ){
+		sqlSession.update(namespace + ".deleteListBySchedule", todayDate);
 	}
 	
 	
     //id로 게시글 조회 (패키지/프로시저 활용)
     public Map<String, Object> getBoardByProc(int p_id) {
-    	Map<String, Object> param = new HashMap<String, Object>();
+    	Map<String, Object> param = new HashMap<>();
     	param.put("p_id", p_id);
-    	String outputValue = (String)sqlSession.selectOne(namespace+".getBoardByProc", param);
-    	System.out.println("Output Value from Procedure: " + outputValue);
+    	sqlSession.selectOne(namespace+".getBoardByProc", param);
+		log.info(param.toString());
         return param;
     }
     

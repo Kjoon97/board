@@ -34,7 +34,7 @@
   		<property value="ltfree2023" name="password" />
 	</bean>
 
-
+    <!--트랜잭션 설정-->
    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"></property>
    </bean>     
